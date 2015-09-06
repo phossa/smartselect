@@ -1,5 +1,5 @@
 # Introduction
-SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of unique features which can not be found in other select plugins.
+SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of useful features which can not be found in other select plugins.
 
 # Features
 - Handles much more complicated data relations than single or multiple select.
