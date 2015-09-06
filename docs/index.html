@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="smartselect, a smart jquery multiple select plugin">
+        <meta name="keywords" content="smartselect, phossa, jquery, bootstrap, multiple select, multiselect, jquery plugin, html select replacement">
+        <meta name="author" content="Hong Zhang">
+        <title>jQuery SmartSelect</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/phossa.css" rel="stylesheet" />
+        <link href="../dist/smartselect.min.css" rel="stylesheet" />
+        <link href="css/demo.css" rel="stylesheet" />
+        <style>
+            .desc { margin-left: 230px; }
+            h3 { margin-top: 25px; margin-bottom: 25px; }
+            li > button.btn-sm { padding: 0 6px 0 6px; }
+            ul.mylist > li { margin-top: 8px; }
+            span.step { margin-right: 8px; font-style: italic; }
+            span.step.active { background-color: #e0e0e0; }
+        </style>
+    </head>
+    <body data-spy="scroll" data-target=".scroll">
+        <!-- load scripts -->
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="../dist/jquery.smartselect.min.js"></script>
+
+        <!-- navbar -->
+        <nav class="navbar navbar-inverse navbar-static-top phossa-blue phossa-bottom-shadow" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><i class="fa fa-lg fa-fw fa-check-square-o"></i>SmartSelect</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html"><i class="fa fa-lg fa-fw fa-home"></i> Home</a></li>
+                    <li><a href="https://github.com/phossa/smartselect" target="_blank"><i class="fa fa-lg fa-fw fa-download"></i> Download</a></li>
+                    <li><a href="docs.html"><i class="fa fa-lg fa-fw fa-book"></i> Document</a></li>
+                    <li><a href="demo.html"><i class="fa fa-lg fa-fw fa-star-o"></i> Demo</a></li>
+                    <li><a href="license.html"><i class="fa fa-lg fa-fw fa-coffee"></i> License</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- container -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 scroll" role="complementary">
+                    <nav class="hidden-sm hidden-xs phossa-affix">
+                        <ul class="nav nav-stacked"></ul>
+                    </nav>
+                </div>
+                <div class="col-md-10" role="main">
+
+                    <h3 id="sec-1">Introduction</h3>
+                    <p>SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of useful features which can not be found in other select plugins.</p>
+                    <p>SmartSelect handles complex data models, supports hierarchy structures, and also is able to combine several selects into one and make you page clean.</p>
+                    <hr />
+
+                    <h3 id="sec-2">Features</h3>
+                    <ul class="mylist">
+                        <li>Handles much more complicated data relations than single or multiple select.</li>
+                        <li>Unlimited levels or hierarchy supported.</li>
+                        <li>Toolbar with search, save as alias, undo, fold/unfold, checkall/uncheckall functionalities.</li>
+                        <li>Optimized. 10 times faster than other select plugins with more than 1000+ &lt;OPTION&gt;</li>
+                        <li>Almost everything is configurable.</li>
+                        <li>Bootstrap compatible but not required.</li>
+                    </ul>
+                    <hr />
+
+                    <h3 id="sec-3">Example</h3>
+                    <p>A sale time select module in a data warehouse project.</p>
+                    <div class="demo">
+                        <select id="saletime" multiple data-atleast="1">
+                            <optgroup label="Common Dates" data-exclusive data-view>
+                                <option value="cmon" data-inclusive="m">this month</option>
+                                <option value="lmon" data-inclusive="m">last month</option>
+                                <option value="cyear" data-inclusive="y">this year</option>
+                                <option value="lyear" data-inclusive="y">last year</option>
+                                <option value="l3" data-inclusive="x">last 3 years</option>
+                                <option value="l5" data-inclusive="z">last 5 years</option>
+                            </optgroup>
+                            <optgroup label="Specific Dates" data-group-exclusive>
+                                <option value="2015">2015</option>
+                                <option value="2015-04" data-level="2">2015-04</option>
+                                <option value="2015-03" data-level="2">2015-03</option>
+                                <option value="2015-02" data-level="2">2015-02</option>
+                                <option value="2015-01" data-level="2">2015-01</option>
+                                <option value="2014">2014</option>
+                                <option value="2014-12" data-level="2">2014-12</option>
+                                <option value="2014-11" data-level="2">2014-11</option>
+                                <option value="2014-10" data-level="2">2014-10</option>
+                                <option value="2014-09" data-level="2">2014-09</option>
+                                <option value="2014-08" data-level="2">2014-08</option>
+                                <option value="2014-07" data-level="2">2014-07</option>
+                                <option value="2014-06" data-level="2">2014-06</option>
+                                <option value="2014-05" data-level="2">2014-05</option>
+                                <option value="2014-04" data-level="2">2014-04</option>
+                                <option value="2014-03" data-level="2">2014-03</option>
+                                <option value="2014-02" data-level="2">2014-02</option>
+                                <option value="2014-01" data-level="2">2014-01</option>
+                            </optgroup>
+                        </select>
+                        <script>
+                            $(document).ready(function() {
+                                $("select#saletime").smartselect({
+                                    defaultView: 'level1+selected',
+                                    viewAfterAlias: true,
+                                    closeAfterAlias: false,
+                                    defaultValues: [ 'lyear' ],
+                                    toolbar: {
+                                        buttonView: 'level1+selected'
+                                    },
+                                    style: {
+                                        select: 'dropdown-toggle btn btn-info'
+                                    },
+                                    text: {
+                                        selectLabel: 'Sale time'
+                                    },
+                                    aliases: {
+                                        'last 2 months': [ 'cmon', 'lmon' ],
+                                        'last 2 years': [ 'cyear', 'lyear']
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                    <div class="desc">
+                        <ul class="mylist">
+                            <li>system requires at least one option selected and the default value is 'last year'.
+                                <br />On plugin loaded or whenever user deselect all options, system will automatically select the default value.
+                                <br />Try the following:
+                                    <span class="step" id="test0-1">1. select 'this year'</span>
+                                    <span class="step" id="test0-2">2. deselect 'last year'</span>
+                                    <span class="step" id="test0-3">3. deselect 'this year'</span>
+                                    <button class="btn btn-sm" id="test0">try it</button>
+                            </li>
+                            <li>'this month' and 'last month' can be selected together, but both can not be selected with 'this year'
+                                <br />Try the following:
+                                    <span class="step" id="test1-1">1. select 'this month'</span>
+                                    <span class="step" id="test1-2">2. select 'last month'</span>
+                                    <span class="step" id="test1-3">3. select 'this year'</span>
+                                    <button class="btn btn-sm" id="test1">try it</button>
+                            </li>
+                            <li>'last 3 years' or 'last 5 years' can only be selected by itself.
+                                <br />Try the following:
+                                    <span class="step" id="test2-1">1. select 'last 3 years'</span>
+                                    <span class="step" id="test2-2">2. select 'last 5 years'</span>
+                                    <button class="btn btn-sm" id="test2">try it</button>
+                            </li>
+                            <li>dates under 'common dates' and 'specific dates' can not be selected at the same time.
+                                <br />Try the following:
+                                    <span class="step" id="test3-1">1. select 'last 3 years'</span>
+                                    <span class="step" id="test3-2">2. select '2015'</span>
+                                    <button class="btn btn-sm" id="test3">try it</button>
+                            <li>you may select couple of specific 2015 months, or just '2015'. Upper level can not be selected with lower levels. vise vera.
+                                <br />Try the following:
+                                    <span class="step" id="test4-1">1. select '2015-04'</span>
+                                    <span class="step" id="test4-2">2. select '2015-03'</span>
+                                    <span class="step" id="test4-3">3. select '2015'</span>
+                                    <button class="btn btn-sm" id="test4">try it</button>
+                            <li>you may combine months from '2014' or '2015' or just select '2014' and '2015'
+                                <br />Try the following:
+                                    <span class="step" id="test5-1">1. select '2015-04'</span>
+                                    <span class="step" id="test5-2">2. select '2014-12'</span>
+                                    <span class="step" id="test5-3">3. select '2014'</span>
+                                    <span class="step" id="test5-4">4. select '2015'</span>
+                                    <button class="btn btn-sm" id="test5">try it</button>
+                            </li>
+                            <li>click an alias.
+                                <br />Try the following:
+                                    <span class="step" id="test6-1">1. select alias 'last 2 months'</span>
+                                    <span class="step" id="test6-2">2. select alias 'last 2 years'</span>
+                                    <button class="btn btn-sm" id="test6">try it</button>
+                            </li>
+                        </ul>
+
+                        <script>
+                            $(document).ready(function() {
+
+                                var ss = $("select#saletime").getsmartselect();
+
+                                // open it by default
+                                ss.openDropdown();
+
+                                function resetIt() {
+                                    ss.openDropdown();
+                                    ss.deselectAllOptions();
+                                    ss.$buttonView.trigger('click');
+                                };
+
+                                $("button#test0").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        $("#test0-1").addClass("active");
+                                        ss.selectOption(['cyear']);
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test0-1").removeClass("active");
+                                        $("#test0-2").addClass("active");
+                                        ss.deselectOption(['lyear']);
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test0-2").removeClass("active");
+                                        $("#test0-3").addClass("active");
+                                        ss.deselectOption(['cyear']);
+                                    }, 3000);
+
+                                    setTimeout(function() {
+                                        $("#test0-3").removeClass("active");
+                                    }, 4000);
+                                });
+
+                                $("button#test1").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        $("#test1-1").addClass("active");
+                                        ss.selectOption(['cmon']);
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test1-1").removeClass("active");
+                                        $("#test1-2").addClass("active");
+                                        ss.selectOption(['lmon']);
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test1-2").removeClass("active");
+                                        $("#test1-3").addClass("active");
+                                        ss.selectOption(['cyear']);
+                                    }, 3000);
+
+                                    setTimeout(function() {
+                                        $("#test1-3").removeClass("active");
+                                    }, 4000);
+                                });
+
+                                $("button#test2").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        $("#test2-1").addClass("active");
+                                        ss.selectOption(['l3']);
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test2-1").removeClass("active");
+                                        $("#test2-2").addClass("active");
+                                        ss.selectOption(['l5']);
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test2-2").removeClass("active");
+                                    }, 3000);
+                                });
+
+                                $("button#test3").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        $("#test3-1").addClass("active");
+                                        ss.selectOption(['l3']);
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test3-1").removeClass("active");
+                                        $("#test3-2").addClass("active");
+                                        ss.selectOption(['2015']);
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test3-2").removeClass("active");
+                                    }, 3000);
+                                });
+
+                                $("button#test4").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        ss.unfoldOption('2015');
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test4-1").addClass("active");
+                                        ss.selectOption(['2015-04']);
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test4-1").removeClass("active");
+                                        $("#test4-2").addClass("active");
+                                        ss.selectOption(['2015-03']);
+                                    }, 3000);
+
+                                    setTimeout(function() {
+                                        $("#test4-2").removeClass("active");
+                                        $("#test4-3").addClass("active");
+                                        ss.selectOption(['2015']);
+                                    }, 4000);
+
+                                    setTimeout(function() {
+                                        $("#test4-3").removeClass("active");
+                                    }, 5000);
+                                });
+
+                                $("button#test5").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        ss.unfoldOption('2015');
+                                        ss.unfoldOption('2014');
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test5-1").addClass("active");
+                                        ss.selectOption(['2015-04']);
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test5-1").removeClass("active");
+                                        $("#test5-2").addClass("active");
+                                        ss.selectOption(['2014-12']);
+                                    }, 3000);
+
+                                    setTimeout(function() {
+                                        $("#test5-2").removeClass("active");
+                                        $("#test5-3").addClass("active");
+                                        ss.selectOption(['2014']);
+                                    }, 4000);
+
+                                    setTimeout(function() {
+                                        $("#test5-3").removeClass("active");
+                                        $("#test5-4").addClass("active");
+                                        ss.selectOption(['2015']);
+                                    }, 5000);
+
+                                    setTimeout(function() {
+                                        $("#test5-4").removeClass("active");
+                                    }, 6000);
+                                });
+
+                                $("button#test6").on('click', function() {
+                                    resetIt();
+
+                                    setTimeout(function() {
+                                        ss.$buttonAlias.children('button').trigger('click');
+                                    }, 700);
+
+                                    setTimeout(function() {
+                                        $("#test6-1").addClass("active");
+                                        ss.selectAlias('last 2 months');
+                                    }, 2000);
+
+                                    setTimeout(function() {
+                                        $("#test6-1").removeClass("active");
+                                        $("#test6-2").addClass("active");
+                                        ss.$buttonAlias.children('button').trigger('click');
+                                    }, 4000);
+
+                                    setTimeout(function() {
+                                        ss.selectAlias('last 2 years');
+                                        $("#test6-2").removeClass("active");
+                                    }, 5000);
+                                });
+                            });
+                        </script>
+                    </div>
+                <!--    <pre>
+&lt;select id="saletime" multiple data-atleast="1"&gt;
+  &lt;optgroup label="Common Dates" data-exclusive data-view&gt;
+    &lt;option value="cmon" data-inclusive="m"&gt;this month&lt;/option&gt;
+    &lt;option value="lmon" data-inclusive="m"&gt;last month&lt;/option&gt;
+    &lt;option value="cyear" data-inclusive="y"&gt;this year&lt;/option&gt;
+    &lt;option value="lyear" data-inclusive="y"&gt;last year&lt;/option&gt;
+    &lt;option value="l3" data-inclusive="x"&gt;last 3 years&lt;/option&gt;
+    &lt;option value="l5" data-inclusive="z"&gt;last 5 years&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Specific Dates" data-group-exclusive&gt;
+    &lt;option value="2015"&gt;2015&lt;/option&gt;
+    &lt;option value="2015-04" data-level="2"&gt;2015-04&lt;/option&gt;
+    &lt;option value="2015-03" data-level="2"&gt;2015-03&lt;/option&gt;
+    ...
+    &lt;option value="2014"&gt;2014&lt;/option&gt;
+    &lt;option value="2014-12" data-level="2"&gt;2014-12&lt;/option&gt;
+    &lt;option value="2014-11" data-level="2"&gt;2014-11&lt;/option&gt;
+    ...
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;script&gt;
+  $(document).ready(function() {
+    $("select#saletime").smartselect({
+      defaultView: 'level1+selected',
+      viewAfterAlias: false,
+      closeAfterAlias: false,
+      defaultValues: [ 'lyear' ],
+      toolbar: {
+        buttonView: 'level1+selected'
+      },
+      style: {
+        select: 'dropdown-toggle btn btn-info'
+      },
+      text: {
+        selectLabel: 'Sale time'
+      },
+      aliases: {
+        'last 2 months': [ 'cmon', 'lmon' ],
+        'last 2 years': [ 'cyear', 'lyear']
+      }
+    });
+  });
+&lt;/script&gt;</pre> -->
+                    <hr />
+
+                    <h3 id="sec-4">Setup</h3>
+                    <pre>
+&lt;link href="dist/smartselect.min.css" rel="stylesheet" /&gt;
+&lt;script src="dist/jquery.smartselect.min.js"&gt;&lt;/script&gt;</pre>
+
+                    <h3 id="sec-5">Dependencies</h3>
+                    <p>Tested with jQuery 1.9.0. May work with earlier versions from 1.7.x.</p>
+                    <hr />
+
+                    <h3 id="sec-6">Copyright</h3>
+                    <p>Copyright 2015 Hong Zhang</p>
+                    <ul class="mylist">
+                        <li>Private Use: granted without warranty.</li>
+                        <li>Commercial Use: need to purchase a <a href="license.html">commercial license</a>.</li>
+                        <li>Distribution: need to purchase a <a href="license.html">distribution license</a>.</li>
+                    </ul>
+                    <hr />
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+
+                /* affix */
+                var $affix = $('.phossa-affix');
+
+                $('h3').each(function() {
+                    var $h3   = $(this);
+                    var $li   = $('<li><a href="#' + $h3.attr('id') + '">' +
+                                $h3.text()+ '</a></li>');
+                    $affix.children('ul').append($li);
+                });
+
+                $affix.affix({
+                    offset: {
+                        top: $affix.offset().top
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

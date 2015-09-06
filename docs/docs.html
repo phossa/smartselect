@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="smartselect, a smart jquery multiple select plugin">
+        <meta name="keywords" content="smartselect, phossa, jquery, bootstrap, multiple select, multiselect, jquery plugin, html select replacement">
+        <meta name="author" content="Hong Zhang">
+        <title>jQuery SmartSelect</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/phossa.css" rel="stylesheet" />
+        <link href="../dist/smartselect.min.css" rel="stylesheet" />
+        <link href="css/demo.css" rel="stylesheet" />
+        <style>
+            div[role='main'] table {
+                clear: both;
+                border-collapse: collapse;
+                border-spacing: 0;
+                border: 1px solid #999;
+            }
+
+            div[role='main'] table th,
+            div[role='main'] table td {
+                border: 1px solid #999;
+                padding: 7px;
+                vertical-align: top;
+            }
+
+            div[role='main'] table th {
+                font-weight: normal;
+                font-size: 1.3333em;
+                background-color:#f0f0f0;
+            }
+            div[role='main'] table th:first-child {
+                width: 30%;
+            }
+
+            div[role='main'] table td h4 {
+                margin-top: 5px;
+            }
+        </style>
+    </head>
+    <body data-spy="scroll" data-target=".scroll">
+        <!-- load scripts -->
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="../dist/jquery.smartselect.min.js"></script>
+
+        <!-- navbar -->
+        <nav class="navbar navbar-inverse navbar-static-top phossa-blue phossa-bottom-shadow" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><i class="fa fa-lg fa-fw fa-check-square-o"></i>SmartSelect</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html"><i class="fa fa-lg fa-fw fa-home"></i> Home</a></li>
+                    <li><a href="https://github.com/phossa/smartselect" target="_blank"><i class="fa fa-lg fa-fw fa-download"></i> Download</a></li>
+                    <li class="active"><a href="docs.html"><i class="fa fa-lg fa-fw fa-book"></i> Document</a></li>
+                    <li><a href="demo.html"><i class="fa fa-lg fa-fw fa-star-o"></i> Demo</a></li>
+                    <li><a href="license.html"><i class="fa fa-lg fa-fw fa-coffee"></i> License</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- container -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 scroll" role="complementary">
+                    <nav class="hidden-sm hidden-xs phossa-affix">
+                        <ul class="nav nav-stacked"></ul>
+                    </nav>
+                </div>
+                <div class="col-md-9" role="main">
+                    <h2 id="sec-1">Settings</h2>
+                    <p>Plugin settings are set during the initialization time.</p>
+                    <pre>
+$("select#demo").smartselect({
+    multiple: false
+});</pre>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1a">multiple</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Set the plugin to multiple select. Normally this setting will be automatically generated from the original &lt;SELECT&gt; by looking at its attribute <i>multiple</i>.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1b">optimized</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>false</i>
+                                </td>
+                                <td>Set the plugin to optimized mode, which means <i>delayedInit</i>: true, <i>debug</i>: 0, <i>keepInSync</i>: false</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1c">delayedInit</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Delay partial of the initialization process to first dropdown. This will decrease plugin load time up to 20%.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1d">debug</h4>
+                                    type: <i>integer</i><br />
+                                    default: <i>0</i>
+                                </td>
+                                <td>Debug switch to pring debug messages in console. Set to 1 to enable debugging.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1e">debugLevel</h4>
+                                    type: <i>integer</i><br />
+                                    default: <i>5</i>
+                                </td>
+                                <td>Debug level 2 - 9. Set to 9 if the detailed messages wanted.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1f">maxLevels</h4>
+                                    type: <i>integer</i><br />
+                                    default: <i>5</i>
+                                </td>
+                                <td>Maximum data levels allowed. There is no hard limit on the <i>data-level</i>. If you want to support more than the default 5 levels, you may set here and also modify the data-level related style in the 'smartselect.css' file.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1g">closeOnSelect</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>false</i>
+                                </td>
+                                <td>Close the dropdown automatically once click/select an option. This option is set to TRUE automatically in single select situation.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1h">closeOtherSmartSelect</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>If set to TRUE, close other smartselects' dropdowns when open this plugin's dropdown.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1i">defaultValues</h4>
+                                    type: <i>array</i><br />
+                                    default: <i>null</i>
+                                </td>
+                                <td>array of values (string). When all options deselected, plugin will reset to these default values.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1j">initialValues</h4>
+                                    type: <i>array</i><br />
+                                    default: <i>[]</i>
+                                </td>
+                                <td>array of values (string). Initial options to select, similar to the original &lt;SELECT&gt; has values selected.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1k">keepInSync</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>If set to TRUE, will always keep the original &lt;SELECT&gt; in sync with plugin. In optimized mode, this switch is set to FALSE to increase performance. and the sync will be performed when dropdown closed or by calling method 'syncSelect' manually.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1l">clickGroupOpen</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>If set to TRUE, click the group label will expand the group.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1m">showSelectedInLabel</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>If set to TRUE, display option labels/text in the plugin button.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1n">showSelectedCount</h4>
+                                    type: <i>integer</i><br />
+                                    default: <i>2</i>
+                                </td>
+                                <td>Max number of selected option text to display</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1o">showSelectedSeperator</h4>
+                                    type: <i>string</i><br />
+                                    default: <i>', '</i>
+                                </td>
+                                <td>seperator used in displaying option text</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1p">defaultView</h4>
+                                    type: <i>string</i><br />
+                                    default: <i>'root+selected'</i>
+                                </td>
+                                <td>Default fold/unfold view for the first time dropdown. possible values are 'root', 'expand', 'level1', 'level2' and 'selected'. 'selected' can be combined with other values like 'root+selected'.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1q">viewAfterCheckAll</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Simulate a click of the buttonView after clicking buttonCheckAll</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1r">viewAfterCancel</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Simulate a click of the buttonView after clicking buttonCancel</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1s">viewAfterAlias</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Simulate a click of the buttonView after selecting an alias</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1t">closeAfterAlias</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Close the dropdown after selecting an alias.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1u">searchBy</h4>
+                                    type: <i>string</i><br />
+                                    default: <i>'label'</i>
+                                </td>
+                                <td>The search field. possible values are 'label', 'value' and 'both'</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1v">searchCaseInsensitive</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>search case-insensitive</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1w">atLeast</h4>
+                                    type: <i>integer</i><br />
+                                    default: <i>0</i>
+                                </td>
+                                <td>number of selected options required.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1x">atMost</h4>
+                                    type: <i>integer</i><br />
+                                    default: <i>0</i>
+                                </td>
+                                <td>max number of selected options allowed, 0 is no limit.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1y">mustSelect</h4>
+                                    type: <i>array</i><br />
+                                    default: <i>[]</i>
+                                </td>
+                                <td>must selected options in array of values. Attribute 'data-must' for &lt;OPTION&gt; will achieve the same result.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1z">data</h4>
+                                    type: <i>array</i><br />
+                                    default: <i>[]</i>
+                                </td>
+                                <td>
+                                    Instead of attach to a &lt;SELECT&gt;. User may provide option data here. the format is the same as 'addOption()'.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1aa">aliases</h4>
+                                    type: <i>object</i><br />
+                                    default: <i>{}</i>
+                                </td>
+                                <td>
+                                    Initialize the aliases.
+                                    <pre>
+aliases: {
+    'test 1': [ '2', '3' ],
+    'test 2': [ '1', '5', '7']
+}</pre>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 id="sec-2">Toolbar</h2>
+                    <p>Swithes for toolbar buttons</p>
+                    <pre>
+$("select#demo").smartselect({
+    toolbar: {
+        buttonCancel: false
+    }
+});</pre>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2a">buttonSearch</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Search the options.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2b">buttonAlias</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Alias related functionalities.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2c">buttonView</h4>
+                                    type: <i>string</i><br />
+                                    default: <i>'root+selected'</i>
+                                </td>
+                                <td>Set current fold/unfold viewing status by click buttonView. Possible values are same as 'defaultView'</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2d">buttonUnfold</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Unfold all.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2e">buttonCancel</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Cancel current selections, revert to the state of before dropdown shows.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2f">buttonCheckAll</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Select all.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-2g">buttonUnCheck</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td>Deselect all.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 id="sec-3">APIs</h2>
+                    <p>APIs detail</p>
+                    <pre>
+var ss = $("select#demo").smartselect().getsmartselect();
+ss.selectOptions([ '4', '6' ]);</pre>
+
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3a">smartselect(options, extra)</h4>
+                                    param: <i>{Object} options</i><br />
+                                    param: <i>{Object} extra</i><br />
+                                    returns: <i>jQuery</i>
+                                </td>
+                                <td>Initialize the plugin</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3b">getsmartselect()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Get the smartselect object.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3c">selectOptions(values, clear)</h4>
+                                    param: <i>{Array} values</i><br />
+                                    param: <i>{Boolean} clear</i>, default to TRUE<br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Select options base on the values provided. By default, clear all first.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3d">deselectOptions(values)</h4>
+                                    param: <i>{Array} values</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Deselect options base on the values provided.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3e">getValues()</h4>
+                                    returns: <i>Array</i>
+                                </td>
+                                <td>Get selected values in array</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3f">isDisabled()</h4>
+                                    returns: <i>Boolean</i>
+                                </td>
+                                <td>Is the plugin disabled ?</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3g">disableSelect()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>disable the plugin</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3h">enableSelect()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>enable the plugin</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3i">disableOptions(values)</h4>
+                                    param: <i>{Array} values</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Disable options base on given values</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3j">enableOptions(values)</h4>
+                                    param: <i>{Array} values</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Enable options base on given values</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3k">addOption(info, after, parent)</h4>
+                                    param: <i>{Object} info</i><br />
+                                    param: <i>{ValueString, HTHMLElement, jQuery, IDstring} after</i><br />
+                                    param: <i>{ValueString, HTHMLElement, jQuery, IDstring} parent</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Add an option to the plugin. Properties 'info.label' and 'info.value' are required. Other properties: 'info.data-level', 'info.data-must', 'info.data-view' etc. 'after' is an option to add after. 'parent' is an option or group to add under.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3l">removeOption(value)</h4>
+                                    param: <i>{String} value</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Remove an option by value</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3m">getGroup(name)</h4>
+                                    param: <i>{String|jQuery} name</i><br />
+                                    returns: <i>jQuery</i>
+                                </td>
+                                <td>Get group object base on the given name to match</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3n">getSelectedPairs()</h4>
+                                    returns: <i>Object</i>
+                                </td>
+                                <td>Get selected options. The result object $res has {Array} $res.value and {Object} $res.label</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3o">toggleDropdown(hideDropdown)</h4>
+                                    param: <i>{Boolean} hideDropdown</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Toggle dropdown. 'hideDropdown' TRUE force hide, FALSE force open</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3p">toggleOption(li, triggerChange, setOption)</h4>
+                                    param: <i>{ValueString, HTHMLElement, jQuery, IDstring} li</i><br />
+                                    param: <i>{Boolean} triggerChange</i><br />
+                                    param: <i>{Boolean} setOption</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Select or deselect an option. 'triggerChange' set FALSE to disable. 'setOption' TRUE force select, FALSE force deselect.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3q">selectOption(li, triggerChange)</h4>
+                                    param: <i>{ValueString, HTHMLElement, jQuery, IDstring} li</i><br />
+                                    param: <i>{Boolean} triggerChange</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Select an option. 'triggerChange' set FALSE to disable.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3r">deselectOption(li, triggerChange)</h4>
+                                    param: <i>{ValueString, HTHMLElement, jQuery, IDstring} li</i><br />
+                                    param: <i>{Boolean} triggerChange</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Deselect an option. 'triggerChange' set FALSE to disable.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3s">addCallback(event, callback)</h4>
+                                    param: <i>{String} event</i><br />
+                                    param: <i>{Callback, Array} callback</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Add a callback for procedural event. May take an array of callbacks.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3t">selectAllOptions()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Select all options</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3u">deselectAllOptions()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Deselect all options</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3v">selectGroupOptions($group, triggerChange)</h4>
+                                    param: <i>{String, jQuery} $group</i><br />
+                                    param: <i>{Boolean} triggerChange</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Select all options in a group. $group is a group name or jquery object. If $group is undefined, select all options under the root.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3w">deselectGroupOptions($group, triggerChange)</h4>
+                                    param: <i>{String, jQuery} $group</i><br />
+                                    param: <i>{Boolean} triggerChange</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Deselect all options in a group. $group is a group name or jquery object. If $group is undefined, select all options under the root.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3x">addAlias(name, value, syncLabel, syncAlias)</h4>
+                                    param: <i>{String, Object} name</i><br />
+                                    param: <i>{Array} value</i><br />
+                                    param: <i>{Boolean} syncLabel</i><br />
+                                    param: <i>{Boolean} syncAlias</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Add one alias or a group of aliases.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3y">removeAlias(name, syncLabel, syncAlias)</h4>
+                                    param: <i>{String, Array} name</i><br />
+                                    param: <i>{Boolean} syncLabel</i><br />
+                                    param: <i>{Boolean} syncAlias</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Remove one alias or a group of aliases.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3z">selectAlias(name)</h4>
+                                    param: <i>{String} name</i><br />
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Click one alias.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3aa">syncSelect()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Force sync with original &lt;SELECT&gt;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 id="sec-4">Callbacks</h2>
+                    <p>Procedural events related callbacks can be defined initially or added later by api 'addCallback()'. Procedural event callbacks must return a boolean value to indicate wether success or not. <i>Procedural event callbacks WILL affect the plugin behavior.</i></p>
+                    <pre>
+var ss = $("select#demo").smartselect({
+    callback: {
+        onPluginLoad: [ myCallback, myCallback2 ]
+    }
+}).getsmartselect();
+
+ss.addCallback('onDropdownShown', myCallback3);</pre>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4a">onPluginLoad</h4>
+                                </td>
+                                <td>Just before plugin init.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4b">onPluginLoaded</h4>
+                                </td>
+                                <td>Right after plugin finished init.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4c">onDropdownShow</h4>
+                                </td>
+                                <td>Right before dropdown show.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4d">onDropdownShown</h4>
+                                </td>
+                                <td>Right after dropdown shown.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4e">onDropdownHide</h4>
+                                </td>
+                                <td>Right before dropdown hide.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4f">onDropdownHidden</h4>
+                                </td>
+                                <td>Right after dropdown hidden.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4g">onOptionChange</h4>
+                                </td>
+                                <td>Right before change option(s).</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4h">onOptionChanged</h4>
+                                </td>
+                                <td>Right after option(s) changed.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4i">onOptionDisable</h4>
+                                </td>
+                                <td>Right before disable an option.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4j">onOptionDisabled</h4>
+                                </td>
+                                <td>Right after option(s) disabled.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4k">onOptionSelect</h4>
+                                </td>
+                                <td>Right before select an option.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4l">onOptionSelected</h4>
+                                </td>
+                                <td>Right after option selected.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4m">onOptionDeselect</h4>
+                                </td>
+                                <td>Right before deselect an option.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-4n">onOptionDeselected</h4>
+                                </td>
+                                <td>Right after option deselected.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 id="sec-5">Handlers</h2>
+                    <p>Status change events can have handlers defined to listen to these events. <i>These handlers will NOT affect plugin behavior</i></p>
+                    <pre>
+$("select#demo").smartselect({
+    atLeast: 2,
+    atMost: 4,
+    mustSelect: [ '1' ],
+    handler: {
+        atLeast: function() { alert('at least 2 options required');},
+        atMost: function() { alert('maximum 4 options exceeded');},
+        mustSelect: function() { alert('must select this one');}
+    }
+});</pre>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5a">optionDuplicated</h4>
+                                </td>
+                                <td>Triggered in addOption() if duplicated option found.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5b">optionAdded</h4>
+                                </td>
+                                <td>Triggered in addOption() after option added.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5c">optionRemoved</h4>
+                                </td>
+                                <td>Triggered in removeOption() after option removed.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5d">aliasChange</h4>
+                                </td>
+                                <td>Triggered after alias added or removed.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5e">atLeast</h4>
+                                </td>
+                                <td>Triggered when deselect an option.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5f">mustSelect</h4>
+                                </td>
+                                <td>Triggered when deselect an option.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-5g">atMost</h4>
+                                </td>
+                                <td>Triggered when select an option</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 id="sec-6">Attributes</h2>
+                    <p>Predefined attributes can be added to &lt;SELECT&gt;, &lt;OPTGROUP&gt; and &lt;OPTION&gt; to achieve complex functionalities.</p>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6a">data-view</h4>
+                                </td>
+                                <td>Can be applied to &lt;OPTGROUP&gt; or &lt;OPTION&gt;. Takes an integer value 'N' or no value (equals to 1). Means expand 'N' level below current group or option. </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6b">data-must</h4>
+                                </td>
+                                <td>Can be applied to &lt;OPTION&gt;. Takes no value. Means this option has to be selected. </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6c">data-level</h4>
+                                </td>
+                                <td>Can be applied to &lt;OPTION&gt;. Takes an integer value 'N'. Indicates the current level of this option.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6d">data-atmost</h4>
+                                </td>
+                                <td>Can be applied to &lt;SELECT&gt; or &lt;OPTGROUP&gt;. Takes an integer value 'N'. Indicates the maximum number of selected options allowed.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6e">data-divider</h4>
+                                </td>
+                                <td>Can be applied to &lt;OPTION&gt;. Takes no value. Indicates this is a divider.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6f">data-atleast</h4>
+                                </td>
+                                <td>Can be applied to &lt;SELECT&gt; or &lt;OPTGROUP&gt;. Takes an integer value 'N'. Indicates the minimum number of selected options required.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6g">data-exclusive</h4>
+                                </td>
+                                <td>Can be applied to &lt;SELECT&gt; or &lt;OPTGROUP&gt;. Takes no value. Indicates options exclusive with others.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6h">data-inclusive</h4>
+                                </td>
+                                <td>Can be applied to &lt;OPTION&gt;. Takes space seperated string value like 'a b c'. Options with same char can be selected together (inclusive).</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6i">data-group-exclusive</h4>
+                                </td>
+                                <td>Can be applied to &lt;OPTGROUP&gt;. Takes space seperated string value like 'a b c' or no value (means '_'). Groups with same char may have options selected at the same time, but others not (exclusive).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+
+                /* affix */
+                var $affix = $('.phossa-affix');
+
+                $('h2').each(function() {
+                    var $h2   = $(this);
+                    var $li   = $('<li><a href="#' + $h2.attr('id') + '">' +
+                                $h2.text()+ '</a></li>');
+                    $affix.children('ul').append($li);
+
+                    var $sub  = $h2.nextUntil('table').last().next('table').find('h4');
+                    if ($sub.length) {
+                        $ul = $('<ul class="nav"></ul>');
+                        $li.append($ul);
+                        $sub.each(function() {
+                            var $h4 = $(this);
+                            $ul.append('<li><a href="#' + $h4.attr('id') + '">' +
+                                $h4.text()+ '</a></li>');
+                        });
+                    }
+                });
+
+                $affix.affix({
+                    offset: {
+                        top: $affix.offset().top
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

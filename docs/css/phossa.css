@@ -1,0 +1,77 @@
+/* phossa style */
+
+/* phossa color */
+.phossa-blue, .phossa-blue .dropdown-menu {
+    background-color: #3071a9 !important;
+    border-color: #999 !important;
+}
+
+.phossa-blue .navbar-brand,
+.phossa-blue  a {
+    color: #f6f6f6 !important;
+}
+
+.phossa-blue .active a,
+.phossa-blue a:hover,
+.phossa-blue a:focus {
+  color: #fff !important;
+  background-color: #3a82c0 !important;
+}
+
+.phossa-blue .navbar-toggle:hover, .phossa-blue .navbar-toggle:focus {
+  background-color: #3a82c0 !important;
+}
+
+.phossa-blue.navbar-inverse .navbar-toggle,
+.phossa-blue.navbar-inverse .navbar-collapse {
+    border-color: #f6f6f6 !important;
+}
+
+.phossa-bottom-shadow {
+    -webkit-box-shadow: 3px 3px 5px 0px #bbb;
+       -moz-box-shadow: 3px 3px 5px 0px #bbb;
+            box-shadow: 3px 3px 5px 0px #bbb;
+}
+
+/* affix  nav */
+.phossa-affix {
+    width: 180px;
+}
+
+.phossa-affix > ul.nav > li > a {
+    color: #666;
+    font-size: 16px;
+}
+
+.phossa-affix .nav li a:hover,
+.phossa-affix .nav li a:focus {
+    background-color: #ddd;
+}
+
+.phossa-affix .nav .active {
+    font-weight: bold;
+    background-color: #ddd;
+}
+
+.phossa-affix .nav .nav {
+    display: none;
+}
+
+.phossa-affix .nav .active .nav {
+    display: block;
+}
+
+.phossa-affix .nav .nav li {
+	padding: 0;
+	background-color: #efefef;
+}
+
+.phossa-affix .nav .nav li.active {
+	background-color: #ddd;
+}
+
+.phossa-affix .nav .nav li a {
+	color: #666;
+	font-weight: normal;
+	padding: 5px 0px 5px 30px;
+}

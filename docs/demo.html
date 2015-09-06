@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="smartselect, a smart jquery multiple select plugin">
+        <meta name="keywords" content="smartselect, phossa, jquery, bootstrap, multiple select, multiselect, jquery plugin, html select replacement">
+        <meta name="author" content="Hong Zhang">
+        <title>jQuery SmartSelect</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/phossa.css" rel="stylesheet" />
+        <link href="../dist/smartselect.min.css" rel="stylesheet" />
+        <link href="css/demo.css" rel="stylesheet" />
+        <style>
+            #pool button {
+              margin: 3px;
+              width: 80px;
+            }
+            #pool button i {
+              float: right;
+              margin-top: 3px;
+            }
+            #pool button i:hover {
+              color: red;
+            }
+        </style>
+    </head>
+    <body data-spy="scroll" data-target=".scroll">
+        <!-- load scripts -->
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="../dist/jquery.smartselect.min.js"></script>
+
+        <!-- navbar -->
+        <nav class="navbar navbar-inverse navbar-static-top phossa-blue phossa-bottom-shadow" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><i class="fa fa-lg fa-fw fa-check-square-o"></i>SmartSelect</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html"><i class="fa fa-lg fa-fw fa-home"></i> Home</a></li>
+                    <li><a href="https://github.com/phossa/smartselect" target="_blank"><i class="fa fa-lg fa-fw fa-download"></i> Download</a></li>
+                    <li><a href="docs.html"><i class="fa fa-lg fa-fw fa-book"></i> Document</a></li>
+                    <li class="active"><a href="demo.html"><i class="fa fa-lg fa-fw fa-star-o"></i> Demo</a></li>
+                    <li><a href="license.html"><i class="fa fa-lg fa-fw fa-coffee"></i> License</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- container -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 scroll" role="complementary">
+                    <nav class="hidden-sm hidden-xs phossa-affix">
+                        <ul class="nav nav-stacked"></ul>
+                    </nav>
+                </div>
+                <div class="col-md-9" role="main">
+                    <h2 id="sec-1">Basic Settings</h2>
+                    <div>
+                        <p>Support both single  and multiple select.</p>
+
+                        <h3 id="sec-1a">single select</h3>
+                        <div class="demo">
+                            <select id="demo-1a">
+                                <option value="1">label 1</option>
+                                <option value="2">label 2</option>
+                                <option value="3">label 3</option>
+                                <option value="4">label 4</option>
+                                <option value="5">label 5</option>
+                                <option value="6">label 6</option>
+                                <option value="7">label 7</option>
+                                <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-1a").smartselect({
+                                        multiple: false,
+                                        text: {
+                                            selectLabel: 'Select ...'
+                                        },
+                                        toolbar: false
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>single select</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>similar to HTML select</li>
+                                        <li>can only select one option</li>
+                                        <li>by default, closed after selection</li>
+                                        <li>configurable display label</li>
+                                        <li>stylish button through configuration</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-1a").smartselect({
+    multiple: false,
+    style: {
+        select: 'dropdown-toggle btn btn-info'
+    },
+    text: {
+        selectLabel: 'Select ...'
+    },
+    toolbar: false
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-1b">default values</h3>
+                        <div class="demo">
+                            <select id="demo-1b" multiple>
+                                <option value="1">label 1</option>
+                                <option value="2">label 2</option>
+                                <option value="3">label 3</option>
+                                <option value="4">label 4</option>
+                                <option value="5">label 5</option>
+                                <option value="6">label 6</option>
+                                <option value="7">label 7</option>
+                                <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-1b").smartselect({
+                                        defaultValues: [ '3', '6' ],
+                                        toolbar: false
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>multiple select</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>if <i>multiple</i> attribute set in &lt;SELECT&gt;</li>
+                                        <li>by default, dropdown wouldn't close after selction</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>default values</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>configurable default values</li>
+                                        <li>when all options deselected, plugin will be reset to default values</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>initial values</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>If original &lt;SELECT&gt; has options selected, plugin will be inited with these values</li>
+                                        <li>Initial values can also be set with options</li>
+                                        <li>plugin will not be reset to initial values when all options deselected</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-1b").smartselect({
+    defaultValues: [ '3', '6' ],
+    toolbar: false
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-1c">limit selections</h3>
+                        <div class="demo">
+                            <select id="demo-1c" multiple>
+                                <option value="1">label 1</option>
+                                <option value="2">label 2</option>
+                                <option value="3">label 3</option>
+                                <option value="4">label 4</option>
+                                <option value="5">label 5</option>
+                                <option value="6">label 6</option>
+                                <option value="7">label 7</option>
+                                <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-1c").smartselect({
+                                        atLeast: 2,
+                                        atMost: 4,
+                                        mustSelect: [ '1' ],
+                                        toolbar: false,
+                                        handler: {
+                                            atLeast: function() { alert('at least 2 options required');},
+                                            atMost: function() { alert('maximum 4 options exceeded');},
+                                            mustSelect: function() { alert('must select this one');}
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>atLeast</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>atLeast</i> limits the minimum options required in the &lt;SELECT&gt;</li>
+                                        <li>user may defined a handler to listen to the <i>atLeast</i> event</li>
+                                        <li>in &lt;OPTGROUP&gt;, attribute <i>'data-atleast'</i> can be used to set minimum required selected options in a optgroup</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>atMost</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>atMost</i> limits the maximum options allowed in the &lt;SELECT&gt;</li>
+                                        <li>user may defined a handler to listen to the <i>atMost</i> event</li>
+                                        <li>in &lt;OPTGROUP&gt;, attribute <i>'data-atmost'</i> can be used to set maximum selected options allowed in a optgroup</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>mustSelect</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>mustSelect</i> contains an array of values must be selected in &lt;SELECT&gt;</li>
+                                        <li>user may defined a handler to listen to the <i>mustSelect</i> event</li>
+                                        <li>attribute <i>data-must</i> can used in &lt;OPTION&gt; to achieve same purpose</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-1c").smartselect({
+    atLeast: 2,
+    atMost: 4,
+    mustSelect: [ '1' ],
+    toolbar: false,
+    handler: {
+        atLeast: function() {
+            alert('at least 2 options required');
+        },
+        atMost: function() {
+            alert('maximum 4 options exceeded');
+        },
+        mustSelect: function() {
+            alert('must select this one');
+        }
+    }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-1d">data exclusive</h3>
+                        <div class="demo">
+                            <select id="demo-1d" multiple data-exclusive>
+                                <option value="1">label 1</option>
+                                <option value="2" data-inclusive="a b">label 2 (team a & b)</option>
+                                <option value="3" data-inclusive="b c">label 3 (team b & c)</option>
+                                <option value="4">label 4</option>
+                                <option value="5">label 5</option>
+                                <option value="6" data-inclusive="c">label 6 (team c)</option>
+                                <option value="7">label 7</option>
+                                <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-1d").smartselect({
+                                        showSelectedCount: 1,
+                                        toolbar: false
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>data exclusive</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>data-exclusive</i> and <i>data-inclusive</i>  can be combined to achieve complex data relationships in &lt;SELECT&gt; or &lt;OPTGROUP&gt;</li>
+                                        <li><i>data-exclusive</i> defines options exlusive with others in a multiple select situation, similar to a single select</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>data inclusive</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>data-inclusive</i> attribute used in &lt;OPTION&gt; defines options can be selected together with other options in the same 'team'</li>
+                                        <li><i>data-inclusive</i> attribute value is a space-seperated string with each non-space char indicate a different 'team'</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+&lt;select id="demo-1d" multiple data-exclusive&gt;
+    &lt;option value="1"&gt;label 1&lt;/option&gt;
+    &lt;option value="2" data-inclusive="a b"&gt;label 2 (team a & b)&lt;/option&gt;
+    &lt;option value="3" data-inclusive="b c"&gt;label 3 (team b & c)&lt;/option&gt;
+    &lt;option value="4"&gt;label 4&lt;/option&gt;
+    &lt;option value="5"&gt;label 5&lt;/option&gt;
+    &lt;option value="6" data-inclusive="c"&gt;label 6 (team c)&lt;/option&gt;
+    &lt;option value="7"&gt;label 7&lt;/option&gt;
+    &lt;option value="8"&gt;label 8&lt;/option&gt;
+&lt;/select&gt;
+
+$("select#demo-1d").smartselect({
+    showSelectedCount: 1,
+    toolbar: false
+});</pre>
+                        <hr>
+                    </div>
+
+                    <h2 id="sec-2">The Toolbar</h2>
+                    <div>
+                        <h3 id="sec-2a">search &  unfold</h3>
+                        <div class="demo">
+                            <select id="demo-2a" multiple>
+                                <option value="1">label 1</option>
+                                <option value="2">label 2</option>
+                                <option value="3">label 3</option>
+                                <option value="4">label 4</option>
+                                <option value="5">label 5</option>
+                                <option value="6">label 6</option>
+                                <option value="7">label 7</option>
+                                <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-2a").smartselect({
+                                        searchBy: 'label',
+                                        searchCaseInsensitive: false,
+                                        toolbar: {
+                                            buttonSearch:   true,
+                                            buttonAlias:    false,
+                                            buttonView:     false,
+                                            buttonUnfold:   true,
+                                            buttonCancel:   false,
+                                            buttonCheckAll: false,
+                                            buttonUnCheck:  false
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>buttonSearch</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>search all options</li>
+                                        <li>search by <i>'label'</i>, <i>'value'</i> or <i>'both'</i></li>
+                                        <li>hit RETURN in the input box to search</li>
+                                        <li>better use with unfold button to view unfiltered options</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>buttonUnfold</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>expanded view to show all options</li>
+                                        <li>in &lt;OPTGROUP&gt; or <i>data-level</i> cases, expand all groups and levels</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-2a").smartselect({
+    searchBy: 'label',
+    searchCaseInsensitive: false,
+    toolbar: {
+        buttonSearch:   true,
+        buttonAlias:    false,
+        buttonView:     false,
+        buttonUnfold:   true,
+        buttonCancel:   false,
+        buttonCheckAll: false,
+        buttonUnCheck:  false
+    }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-2b">aliases</h3>
+                        <div class="demo">
+                            <select id="demo-2b" multiple>
+                                  <option value="1">label 1</option>
+                                  <option value="2">label 2</option>
+                                  <option value="3">label 3</option>
+                                  <option value="4">label 4</option>
+                                  <option value="5">label 5</option>
+                                  <option value="6">label 6</option>
+                                  <option value="7">label 7</option>
+                                  <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-2b").smartselect({
+                                          viewAfterAlias: false,
+                                          closeAfterAlias: false,
+                                          handler: {
+                                            aliasChange: function() {
+                                              console.log('alias changed');
+                                            }
+                                          },
+                                          aliases: {
+                                              alias1: [ '1' , '2' ],
+                                              alias2: [ '5' , '7' ]
+                                          },
+                                          toolbar: {
+                                              buttonSearch:   true,
+                                              buttonAlias:    true,
+                                              buttonView:     false,
+                                              buttonUnfold:   true,
+                                              buttonCancel:   false,
+                                              buttonCheckAll: false,
+                                              buttonUnCheck:  false
+                                          }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>buttonAlias</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>save selected options as an alias for quick access at later time</li>
+                                        <li>select multiple options by just clikc an alias name</li>
+                                        <li>different aliases must use different names</li>
+                                        <li>a new alias name for the same selected options will overwrite the old alias</li>
+                                        <li>default to close the select after click an alias</li>
+                                        <li>status change event <b>'aliasChange'</b> triggered once an alias is added/deleted</li>
+                                        <li>aliases can be easily defined initially or added later</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-2b").smartselect({
+      viewAfterAlias: false,
+      closeAfterAlias: false,
+      handler: {
+        aliasChange: function() {
+          console.log('alias changed');
+        }
+      },
+      aliases: {
+          alias1: [ '1' , '2' ],
+          alias2: [ '5' , '7' ]
+      },
+      toolbar: {
+          buttonSearch:   true,
+          buttonAlias:    true,
+          buttonView:     false,
+          buttonUnfold:   true,
+          buttonCancel:   false,
+          buttonCheckAll: false,
+          buttonUnCheck:  false
+      }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-2c">view & unfold</h3>
+                        <div class="demo">
+                            <select id="demo-2c" multiple>
+                                  <option value="1">label 1</option>
+                                  <option value="2">label 2</option>
+                                  <option value="3" selected>label 3</option>
+                                  <option value="4">label 4</option>
+                                  <option value="5">label 5</option>
+                                  <option value="6" selected>label 6</option>
+                                  <option value="7">label 7</option>
+                                  <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-2c").smartselect({
+                                        defaultView: 'selected',
+                                        toolbar: {
+                                            buttonSearch:   true,
+                                            buttonAlias:    true,
+                                            // view selected options only when clicked
+                                            buttonView:     'selected',
+                                            buttonUnfold:   true,
+                                            buttonCancel:   false,
+                                            buttonCheckAll: false,
+                                            buttonUnCheck:  false
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>buttonView</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>defines a fold/unfold status when click buttonView</li>
+                                        <li>possible values are <i>root</i>, <i>expand</i>, <i>level1</i>, <i>level2</i> and <i>selected</i></li>
+                                        <li><i>selected</i> can be combined with other options, like <i>root+selected</i></li>
+                                    </ul>
+                                </dd>
+                                <dt><b>defaultView</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>defines the fold/unfold status before dropdown shows for the first time</li>
+                                        <li>attribute <i>data-view</i> can be added to &lt;OPTGROUP&gt; or &lt;OPTION&gt; to enable default fold/unfold status for specific group or level</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-2c").smartselect({
+    defaultView: 'selected',
+    toolbar: {
+        buttonSearch:   true,
+        buttonAlias:    true,
+        // view selected options only when clicked
+        buttonView:     'selected',
+        buttonUnfold:   true,
+        buttonCancel:   false,
+        buttonCheckAll: false,
+        buttonUnCheck:  false
+    }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-2d">check all</h3>
+                        <div class="demo">
+                            <select id="demo-2d" multiple>
+                                  <option value="1">label 1</option>
+                                  <option value="2">label 2</option>
+                                  <option value="3">label 3</option>
+                                  <option value="4">label 4</option>
+                                  <option value="5">label 5</option>
+                                  <option value="6">label 6</option>
+                                  <option value="7">label 7</option>
+                                  <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-2d").smartselect({
+                                        toolbar: {
+                                            buttonSearch:   true,
+                                            buttonAlias:    true,
+                                            buttonView:     'selected',
+                                            buttonUnfold:   true,
+                                            buttonCancel:   false,
+                                            buttonCheckAll: true,
+                                            buttonUnCheck:  true
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>buttonCheckAll</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>select all options</li>
+                                        <li>for complex situation, simulates click group by group</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>buttonUnCheck</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>deselect all options</li>
+                                        <li>unless <i>atLeast</i>, <i>defaultValues</i> are set</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-2d").smartselect({
+    toolbar: {
+        buttonSearch:   true,
+        buttonAlias:    true,
+        buttonView:     'selected',
+        buttonUnfold:   true,
+        buttonCancel:   false,
+        buttonCheckAll: true,
+        buttonUnCheck:  true
+    }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-2e">cancel</h3>
+                        <div class="demo">
+                            <select id="demo-2e" multiple>
+                                  <option value="1">label 1</option>
+                                  <option value="2">label 2</option>
+                                  <option value="3">label 3</option>
+                                  <option value="4">label 4</option>
+                                  <option value="5">label 5</option>
+                                  <option value="6">label 6</option>
+                                  <option value="7">label 7</option>
+                                  <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-2e").smartselect({
+                                        viewAfterCancel: false,
+                                        toolbar: {
+                                            buttonSearch:   true,
+                                            buttonAlias:    true,
+                                            buttonView:     'selected',
+                                            buttonUnfold:   true,
+                                            buttonCancel:   true,
+                                            buttonCheckAll: true,
+                                            buttonUnCheck:  true
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>buttonCancel</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>revert to the status when dropdown just showed</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-2e").smartselect({
+    viewAfterCancel: false,
+    toolbar: {
+        buttonSearch:   true,
+        buttonAlias:    true,
+        buttonView:     'selected',
+        buttonUnfold:   true,
+        buttonCancel:   true,
+        buttonCheckAll: true,
+        buttonUnCheck:  true
+    }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-2f">toolbar position</h3>
+                        <div class="demo">
+                            <select id="demo-2f" multiple>
+                                <option value="1">label 1</option>
+                                <option value="2">label 2</option>
+                                <option value="3">label 3</option>
+                                <option value="4">label 4</option>
+                                <option value="5">label 5</option>
+                                <option value="6">label 6</option>
+                                <option value="7">label 7</option>
+                                <option value="8">label 8</option>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-2f").smartselect({
+                                        style: {
+                                            buttonDropdown: 'dropdown-menu',
+                                            toolbarPos: 'left'
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>move toolbar to left</b></dt>
+                                <dd>
+                                    <ul>
+                                      <li>change the style of <i>toolbarPos</i></li>
+                                        <li>change the style of dropdown in toolbar</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-2f").smartselect({
+    style: {
+        buttonDropdown: 'dropdown-menu',
+        toolbarPos: 'left'
+    }
+});</pre>
+                        <hr>
+                    </div>
+
+                    <h2 id="sec-3">Option Group</h2>
+                    <div>
+                        <h3 id="sec-3a">data-level</h3>
+                        <div class="demo">
+                            <select id="demo-3a" multiple>
+                                <optgroup label="group 1">
+                                    <option value="1">label 1</option>
+                                    <option value="1-1" data-level="2">label 1-1</option>
+                                    <option value="1-2" data-level="2">label 1-2</option>
+                                    <option value="2">label 2</option>
+                                    <option value="2-1" data-level="2">label 2-1</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="3">label 3</option>
+                                    <option value="3-1" data-level="2">label 3-1</option>
+                                    <option value="3-1-1" data-level="3">label 3-1-1</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-3a").smartselect({
+                                        defaultView: 'expand'
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>data-level</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>data-level</i> attribute is used to indicate option level</li>
+                                        <li>by default, when no <i>data-level</i> is specified, it equals to <i>data-level="1"</i></li>
+                                        <li>by default, click a sublevel will deselect the upper levels, vise versa.</li>
+                                        <li>by default, when all sublevels selected, it will revert to one level up</li>
+                                        <li><i>buttonCheckAll</i> just select all of the level 1 under the group</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$("select#demo-3a").smartselect({
+    defaultView: 'expand'
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-3b">default view</h3>
+                        <div class="demo">
+                            <select id="demo-3b" multiple>
+                                <optgroup label="group 1" data-view="1">
+                                    <option value="1">label 1</option>
+                                    <option value="1-1" data-level="2">label 1-1</option>
+                                    <option value="1-2" data-level="2">label 1-2</option>
+                                    <option value="2">label 2</option>
+                                    <option value="2-1" data-level="2">label 2-1</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="3">label 3</option>
+                                    <option value="3-1" data-level="2" selected>label 3-1</option>
+                                    <option value="3-1-1" data-level="3">label 3-1-1</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-3b").smartselect({
+                                        defaultView: 'root+selected'
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>defaultView</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>control default fold/unfold status by using <i>defaultView</i> option and <i>data-view</i> attribute</li>
+                                        <li><i>defualtView</i> defines overall expand level while <i>data-view</i> controls individual group or level</li>
+                                        <li><i>data-view="2"</i> means expand upto 2 levels under this group/level</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+&lt;optgroup label="group 1" data-view="1"&gt;
+    &lt;option value="1"&gt;label 1&lt;/option&gt;
+    &lt;option value="1-1" data-level="2"&gt;label 1-1&lt;/option&gt;
+    &lt;option value="1-2" data-level="2"&gt;label 1-2&lt;/option&gt;
+    &lt;option value="2"&gt;label 2&lt;/option&gt;
+    ...
+
+$("select#demo-3b").smartselect({
+    defaultView: 'root+selected'
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-3c">group exclusive</h3>
+                        <div class="demo">
+                            <select id="demo-3c" multiple>
+                                <optgroup label="group 1" data-group-exclusive>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </optgroup>
+                                <optgroup label="group a b" data-group-exclusive="a b">
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </optgroup>
+                                <optgroup label="group b c" data-group-exclusive="b c">
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </optgroup>
+                                <optgroup label="group c" data-group-exclusive="c">
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                                <optgroup label="group 5">
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-3c").smartselect({
+                                        defaultView: 'level1+selected'
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>data-group-exclusive</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>when <i>data-group-exclusive</i> attribute set, this group will exclusive with other groups</li>
+                                        <li><i>data-group-exclusive</i> can take a spaced string, "a b" means other groups with "a" or "b" will not be exclusive with this group</li>
+                                        <li>empty <i>data-group-exclusive</i> means <i>data-group-exclusive="_"</i></li>
+                                        <li>when no attribute <i>data-group-exclusive</i>set, equals to <i>data-group-exclusive="."</i></li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+&lt;select id="demo-3c" multiple&gt;
+    &lt;optgroup label="group 1" data-group-exclusive&gt;
+        &lt;option value="1"&gt;1&lt;/option&gt;
+        &lt;option value="2"&gt;2&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="group a b" data-group-exclusive="a b"&gt;
+        &lt;option value="3"&gt;3&lt;/option&gt;
+        &lt;option value="4"&gt;4&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="group b c" data-group-exclusive="b c"&gt;
+        &lt;option value="5"&gt;5&lt;/option&gt;
+        &lt;option value="6"&gt;6&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="group c" data-group-exclusive="c"&gt;
+        &lt;option value="7"&gt;7&lt;/option&gt;
+        &lt;option value="8"&gt;8&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="group 5"&gt;
+        &lt;option value="9"&gt;9&lt;/option&gt;
+        &lt;option value="10"&gt;10&lt;/option&gt;
+    &lt;/optgroup&gt;
+&lt;/select&gt;</pre>
+                        <hr>
+
+                        <h3 id="sec-3d">limit in group</h3>
+                        <div class="demo">
+                            <select id="demo-3d" multiple>
+                                <optgroup label="group 1" data-view data-atleast="1">
+                                    <option value="1" data-must>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2" data-atleast="2" data-atmost="3">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $("select#demo-3d").smartselect({
+                                        defaultView: 'level1+selected'
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>data-atleast</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>set at least number of options required at group level</li>
+                                        <li>plugin will select the at least number of options if no default values or initial values set</li>
+                                        <li>status change event <i>atLeast</i> will be triggered if user deselect at least number of options</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>data-atmost</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>set maximum number of options allowed at group level</li>
+                                        <li>if default values or initial values exceend the <i>data-atmost</i>, event 'atMost' will be triggered</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+&lt;select id="demo-3d" multiple&gt;
+    &lt;optgroup label="group 1" data-view data-atleast="1"&gt;
+        &lt;option value="1" data-must&gt;1&lt;/option&gt;
+        &lt;option value="2"&gt;2&lt;/option&gt;
+        &lt;option value="3"&gt;3&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="group 2" data-atleast="2" data-atmost="3"&gt;
+        &lt;option value="4"&gt;4&lt;/option&gt;
+        &lt;option value="5"&gt;5&lt;/option&gt;
+        &lt;option value="6"&gt;6&lt;/option&gt;
+        &lt;option value="7"&gt;7&lt;/option&gt;
+        &lt;option value="8"&gt;8&lt;/option&gt;
+    &lt;/optgroup&gt;
+&lt;/select&gt;</pre>
+                        <hr>
+                    </div>
+
+                    <h2 id="sec-4">APIs</h2>
+                    <div>
+                        <h3 id="sec-4a">common apis</h3>
+                        <div class="demo">
+                            <select id="demo-4a" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+
+                                    var $ss4a = $("select#demo-4a").smartselect({
+                                                    defaultView: 'expand'
+                                                }).getsmartselect();
+
+                                    // toggle dropdown
+                                    $("#btn-4aa").click(function() {
+                                      $ss4a.toggleDropdown();
+                                    });
+
+                                    // set values without clear
+                                    $("#btn-4ab").click(function() {
+                                      $ss4a.selectOptions([ '3', '4' ], false);
+                                    });
+
+                                    // unset values
+                                    $("#btn-4ac").click(function() {
+                                      $ss4a.deselectOptions([ '3' ]);
+                                    });
+
+                                    // get values
+                                    $("#btn-4ad").click(function() {
+                                      alert($ss4a.getValues());
+                                    });
+
+                                    // clear all values
+                                    $("#btn-4ae").click(function() {
+                                      $ss4a.selectOptions([ ]);
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>toggle, select, deselect & get</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>toggleDropdown()</i> toggles the dropdown</li>
+                                        <li><i>selectOptions(array values, clear = true)</i> select values, clear first by default</li>
+                                        <li><i>deselectOptions(array values)</i> deselect values</li>
+                                        <li><i>getValues()</i> get all selection values in array</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>click buttons below</b></dt>
+                                <dd>
+                                    <button type="button" id="btn-4aa" class="btn btn-sm btn-info">Toggle dropdown</button>
+                                    <button type="button" id="btn-4ab" class="btn btn-sm btn-primary">Select 3,4</button>
+                                    <button type="button" id="btn-4ac" class="btn btn-sm btn-primary">Deselect 3</button>
+                                    <button type="button" id="btn-4ad" class="btn btn-sm btn-success">Get values</button>
+                                    <button type="button" id="btn-4ae" class="btn btn-sm btn-default">Clear all</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var $ss4a = $("select#demo-4a").smartselect({
+    defaultView: 'expand'
+}).getsmartselect();
+
+// toggle dropdown
+$("#btn-4aa").click(function() {
+    $ss4a.toggleDropdown();
+});
+
+// set values without clear
+$("#btn-4ab").click(function() {
+    $ss4a.selectOptions([ '3', '4' ], false);
+});
+
+// unset values
+$("#btn-4ac").click(function() {
+    $ss4a.deselectOptions([ '3' ]);
+});
+
+// get values
+$("#btn-4ad").click(function() {
+    alert($ss4a.getValues());
+});
+
+// clear all values
+$("#btn-4ae").click(function() {
+    $ss4a.selectOptions([ ]);
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-4b">disable & enable</h3>
+                        <div class="demo">
+                            <select id="demo-4b" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    var $ss4b = $("select#demo-4b").smartselect({
+                                                    defaultView: 'expand'
+                                                }).getsmartselect();
+
+                                    // toggle dropdown
+                                    $("#btn-4ba").click(function() {
+                                      $ss4b.toggleDropdown();
+                                    });
+
+                                    // disable values
+                                    $("#btn-4bb").click(function() {
+                                      $ss4b.disableOptions();
+                                    });
+
+
+                                    // enable values
+                                    $("#btn-4bc").click(function() {
+                                      $ss4b.enableOptions([ '3', '4' ]);
+                                    });
+
+                                    // enable all
+                                    $("#btn-4bd").click(function() {
+                                      $ss4b.enableOptions();
+                                    });
+
+                                    // get values
+                                    $("#btn-4be").click(function() {
+                                      alert($ss4b.getValues());
+                                    });
+
+                                    // disable select
+                                    $("#btn-4bf").click(function() {
+                                      $ss4b.disableSelect();
+                                    });
+
+                                    // enable select
+                                    $("#btn-4bg").click(function() {
+                                      $ss4b.enableSelect();
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>disable & enable</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li><i>disableOptions(array values)</i> disable options base on given values, if no values provided, disable all options</li>
+                                        <li><i>enableOptions(array values)</i> enable options base on given values. If no values provided, enable all disabled options</li>
+                                        <li><i>disableSelect()</i> disables the select entirely</li>
+                                        <li><i>enableSelect()</i> enables the select</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>click buttons below</b></dt>
+                                <dd>
+                                    <button type="button" id="btn-4ba" class="btn btn-sm btn-info">Toggle dropdown</button>
+                                    <button type="button" id="btn-4bb" class="btn btn-sm btn-primary">Disable all</button>
+                                    <button type="button" id="btn-4bc" class="btn btn-sm btn-primary">Enable 3, 4</button>
+                                    <button type="button" id="btn-4bd" class="btn btn-sm btn-info">Enable all</button>
+                                    <button type="button" id="btn-4be" class="btn btn-sm btn-default">Get values</button>
+                                    <button type="button" id="btn-4bf" class="btn btn-sm btn-default">Disable select</button>
+                                    <button type="button" id="btn-4bg" class="btn btn-sm btn-default">Enable select</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var $ss4b = $("select#demo-4b").smartselect({
+                defaultView: 'expand'
+            }).getsmartselect();
+
+// toggle dropdown
+$("#btn-4ba").click(function() {
+    $ss4b.toggleDropdown();
+});
+
+// disable values
+$("#btn-4bb").click(function() {
+    $ss4b.disableOptions();
+});
+
+
+// enable values
+$("#btn-4bc").click(function() {
+    $ss4b.enableOptions([ '3', '4' ]);
+});
+
+// enable all
+$("#btn-4bd").click(function() {
+    $ss4b.enableOptions();
+});
+
+// get values
+$("#btn-4be").click(function() {
+    alert($ss4b.getValues());
+});
+
+// disable select
+$("#btn-4bf").click(function() {
+    $ss4b.disableSelect();
+});
+
+// enable select
+$("#btn-4bg").click(function() {
+    $ss4b.enableSelect();
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-4c">add & remove options</h3>
+                        <div class="demo">
+                            <select id="demo-4c" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    var $ss4c = $("select#demo-4c").smartselect({
+                                                    defaultView: 'expand'
+                                                }).getsmartselect();
+
+                                    // add 9 after 8
+                                    $("#btn-4ca").click(function() {
+                                       $ss4c.toggleDropdown(false);
+                                       $ss4c.addOption({
+                                        label: '9',
+                                        value: '9'
+                                      }, '8');
+                                    });
+
+                                    // add 10 under 8
+                                    $("#btn-4cb").click(function() {
+                                      $ss4c.addOption({
+                                        label: '10',
+                                        value: '10'
+                                      }, false, '8');
+                                    });
+
+                                    // just add to the group 1
+                                    $("#btn-4cc").click(function() {
+                                      $ss4c.addOption({
+                                        label: '11',
+                                        value: '11'
+                                      }, false, $ss4c.getGroup('group 1'));
+                                    });
+
+                                    // just add to the root end
+                                    $("#btn-4cd").click(function() {
+                                      $ss4c.addOption({
+                                        label: '12',
+                                        value: '12'
+                                      });
+                                    });
+
+                                    $(document).on('optionDuplicated.pa.smartselect', function(e) {
+                                        $ss4c.removeOption(e.target);
+                                    });
+
+                                    // get values
+                                    $("#btn-4ch").click(function() {
+                                      alert($ss4c.getValues());
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>addOption(info, after, parent)</b></dt>
+                                <dd>
+                                    <ul>
+                                      <li>'info' is an object has 'info.label' and 'info.value' set.</li>
+                                      <li>'after' is an option value, DOM or jQuery object.</li>
+                                      <li>'parent' can be an option value, DOM, jQuery object or a group name to match</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>removeOption(value)</b></dt>
+                                <dd>
+                                    <ul>
+                                      <li>'value' can be an option value, DOM or jQuery object.</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>click buttons below</b></dt>
+                                <dd>
+                                    <button type="button" id="btn-4ca" class="btn btn-sm btn-info">Add/Remove 9</button>
+                                    <button type="button" id="btn-4cb" class="btn btn-sm btn-info">Add/Remove 10</button>
+                                    <button type="button" id="btn-4cc" class="btn btn-sm btn-info">Add/Remove 11</button>
+                                    <button type="button" id="btn-4cd" class="btn btn-sm btn-info">Add/Remove 12</button>
+                                    <button type="button" id="btn-4ch" class="btn btn-sm btn-success">Get values</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var $ss4c = $("select#demo-4c").smartselect({
+                defaultView: 'expand'
+            }).getsmartselect();
+
+// add 9 after 8
+$("#btn-4ca").click(function() {
+    $ss4c.toggleDropdown(false);
+    $ss4c.addOption({
+        label: '9',
+        value: '9'
+    }, '8');
+});
+
+// add 10 under 8
+$("#btn-4cb").click(function() {
+    $ss4c.addOption({
+        label: '10',
+        value: '10'
+    }, false, '8');
+});
+
+// just add to the group 1
+$("#btn-4cc").click(function() {
+    $ss4c.addOption({
+        label: '11',
+        value: '11'
+    }, false, $ss4c.getGroup('group 1'));
+});
+
+// just add to the root end
+$("#btn-4cd").click(function() {
+    $ss4c.addOption({
+        label: '12',
+        value: '12'
+    });
+});
+
+$(document).on('optionDuplicated.pa.smartselect', function(e) {
+    $ss4c.removeOption(e.target);
+});
+
+// get values
+$("#btn-4ch").click(function() {
+    alert($ss4c.getValues());
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-4d">work with alias</h3>
+                        <div class="demo">
+                            <select id="demo-4d" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    var $ss4d = $("select#demo-4d").smartselect({
+                                                    defaultView: 'expand',
+                                                    closeAfterAlias: false
+                                                }).getsmartselect();
+
+                                    // add alias 'test'
+                                    function xx() {
+                                        $ss4d.$buttonAlias.find('button').trigger('click');
+                                    }
+
+                                    $("#btn-4da").click(function() {
+                                        $ss4d.toggleDropdown();
+                                        setTimeout(xx, 100);
+                                        $ss4d.addAlias('test', [ '3', '5' ]);
+                                    });
+
+                                    $("#btn-4db").click(function() {
+                                        $ss4d.selectAlias('test');
+                                        setTimeout(xx, 100);
+                                    });
+
+                                    $("#btn-4dc").click(function() {
+                                        $ss4d.removeAlias('test');
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>addAlias(name, value)</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>'name' is a string.</li>
+                                        <li>'value' is an array of values.</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>removeAlias(name)</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>'name' is a string.</li>
+                                    </ul>
+                                  </dd>
+                                <dt><b>click buttons below</b></dt>
+                                <dd>
+                                    <button type="button" id="btn-4da" class="btn btn-sm btn-info">Add alias 'test'</button>
+                                    <button type="button" id="btn-4db" class="btn btn-sm btn-info">Select alias 'test'</button>
+                                    <button type="button" id="btn-4dc" class="btn btn-sm btn-info">Remove alias 'test'</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var $ss4d = $("select#demo-4d").smartselect({
+                defaultView: 'expand',
+                closeAfterAlias: false
+            }).getsmartselect();
+
+// add alias 'test'
+function xx() {
+    $ss4d.$buttonAlias.find('button').trigger('click');
+}
+
+$("#btn-4da").click(function() {
+    $ss4d.toggleDropdown();
+    setTimeout(xx, 100);
+    $ss4d.addAlias('test', [ '3', '5' ]);
+});
+
+$("#btn-4db").click(function() {
+    $ss4d.selectAlias('test');
+    setTimeout(xx, 100);
+});
+
+$("#btn-4dc").click(function() {
+    $ss4d.removeAlias('test');
+});</pre>
+                        <hr>
+                    </div>
+
+                    <h2 id="sec-5">Events</h2>
+                    <div>
+                        <h3 id="sec-5a">status events</h3>
+                        <div class="demo">
+                            <select id="demo-5a" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    $(document).on('aliasChange.pa.smartselect', function() {
+                                      alert('handler defined outside');
+                                    });
+                                    var $ss5a = $('select#demo-5a').smartselect({
+                                                    aliases: {
+                                                      test: [ '3', '4' ]
+                                                    },
+                                                    handler: {
+                                                      aliasChange: function(e) {
+                                                        alert('handler defined in options');
+                                                      }
+                                                    }
+                                                }).getsmartselect();
+
+                                    var removeIt = function() {
+                                      $ss5a.removeAlias('test');
+                                    };
+
+                                    $('#btn-5aa').click(function() {
+                                      $ss5a.toggleDropdown(false).$buttonAlias.find('button').trigger('click');
+                                      setTimeout(removeIt, 900);
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>status change events</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>signal a status change</li>
+                                        <li>no <i>'on'</i> prefix in the event name, like 'atLeast', 'atMost' etc.</li>
+                                        <li>handlers can be defined outside with fullname like 'atLeast.pa.smartselect'</li>
+                                        <li>handlers can also be defined in initial options, with shortname like 'atLeast'</li>
+                                        <li>status change events triggered on related jQ object</li>
+                                        <li>or when no object to be associated with, triggered on this.$element</li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <button type="button" id="btn-5aa" class="btn btn-sm btn-info">Delete alias and trigger 'aliasChange'</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$(document).on('aliasChange.pa.smartselect', function() {
+    alert('handler defined outside');
+});
+var $ss5a = $('select#demo-5a').smartselect({
+                aliases: {
+                    test: [ '3', '4' ]
+                },
+                handler: {
+                    aliasChange: function(e) {
+                        alert('handler defined in options');
+                    }
+                }
+            }).getsmartselect();
+
+var removeIt = function() {
+    $ss5a.removeAlias('test');
+};
+
+$('#btn-5aa').click(function() {
+    $ss5a.toggleDropdown(false).$buttonAlias.find('button').trigger('click');
+    setTimeout(removeIt, 900);
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-5b">procedural events</h3>
+                        <div class="demo">
+                            <select id="demo-5b" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {        // disable select 3
+                                    var d3 = function($target, event) {
+                                        if ($target.attr('data-value') === '3') {
+                                          alert('you can not select 3');
+                                          return false;
+                                        }
+                                        return true;
+                                    };
+
+                                    var $ss5b = $('select#demo-5b').smartselect({
+                                                  callback: {
+                                                    onOptionSelect: [ d3 ]
+                                                  },
+                                                  toolbar: false
+                                                }).getsmartselect();
+
+                                    $('#btn-5ba').click(function() {
+                                      $ss5b.toggleDropdown(false);
+                                      $ss5b.selectOption('3');
+                                    });
+
+                                    $('#btn-5bb').click(function() {
+                                      $ss5b.toggleDropdown(false);
+                                      $ss5b.selectOption('2');
+                                    });
+
+                                    $ss5b.addCallback('onOptionSelected', function($target, event) {
+                                      alert('you selected ' + $target.attr('data-value'));
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>procedural events</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>events triggered in procedures</li>
+                                        <li><i>'on'</i> prefix in the event name, like 'onPluginLoaded' etc.</li>
+                                        <li>procedural events normally come in pairs like 'onOptionChange' (before) and 'onOptionChanged' (after)</li>
+                                        <li>callbacks can defined in initial options</li>
+                                        <li>callbacks can also be added later on with API 'addCallback()'</li>
+                                        <li>callbacks are required to return true or false base on execution status.</li>
+                                        <li>if a before-procedure callback returns false, the whole procedure will stop</li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <button type="button" id="btn-5ba" class="btn btn-sm btn-info">Try select option '3'</button>
+                                    <button type="button" id="btn-5bb" class="btn btn-sm btn-info">Try select option '2'</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var d3 = function($target, event) {
+    if ($target.attr('data-value') === '3') {
+        alert('you can not select 3');
+        return false;
+    }
+    return true;
+};
+
+var $ss5b = $('select#demo-5b').smartselect({
+                callback: {
+                    onOptionSelect: [ d3 ]
+                },
+                toolbar: false
+            }).getsmartselect();
+
+$('#btn-5ba').click(function() {
+    $ss5b.toggleDropdown(false);
+    $ss5b.selectOption('3');
+});
+
+$('#btn-5bb').click(function() {
+    $ss5b.toggleDropdown(false);
+    $ss5b.selectOption('2');
+});
+
+$ss5b.addCallback('onOptionSelected', function($target, event) {
+    alert('you selected ' + $target.attr('data-value'));
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-5c">callback example 1</h3>
+                        <div class="demo">
+                            <select id="demo-5c" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1">label 1</option>
+                                    <option value="2" selected>label 2</option>
+                                    <option value="3">label 3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">label 4</option>
+                                    <option value="5">label 5</option>
+                                    <option value="6" selected>lable 6</option>
+                                    <option value="7">label 7</option>
+                                    <option value="8">label 8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    var addButton = function($target, event) {
+                                        var self = this;
+                                        var html = '<button type="button" class="btn btn-sm btn-info" data-value="' + $target.attr('data-value') + '">' + $target.text() + '<i class="fa fa-times"></i></button>';
+                                        $('#pool').append(html);
+
+                                        $('#pool').find('button').off().on('click', function(e) {
+                                            var v = $(e.target).closest('button').attr('data-value');
+                                            self.deselectOptions([ v ]);
+                                        });
+                                        return true;
+                                    };
+
+                                    var removeButton = function($target, event) {
+                                        $('#pool').find('button').each(function() {
+                                            if ($(this).attr('data-value') === $target.attr('data-value')) {
+                                                $(this).remove();
+                                                return false;
+                                            }
+                                        });
+                                        return true;
+                                    };
+
+                                    $('select#demo-5c').smartselect({
+                                        defaultView: 'expand',
+                                        toolbar: false,
+                                        callback: {
+                                            onOptionSelected: [ addButton ],
+                                            onOptionDeselected: [ removeButton ]
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>onOptionSelected</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>triggered after option sucessfully selected</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>onOptionDeselected</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>triggered after option sucessfully deselected</li>
+                                    </ul>
+                                </dd>
+                                <dd id="pool">
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var addButton = function($target, event) {
+    var self = this;
+    var html = '&lt;button type="button" class="btn btn-sm btn-info" data-value="' +
+        $target.attr('data-value') + '"&gt;' + $target.text() +
+        '&lt;i class="fa fa-times"&gt;&lt;/i&gt;&lt;/button&gt;';
+    $('#pool').append(html);
+
+    $('#pool').find('button').off().on('click', function(e) {
+        var v = $(e.target).closest('button').attr('data-value');
+        self.deselectOptions([ v ]);
+    });
+    return true;
+};
+
+var removeButton = function($target, event) {
+    $('#pool').find('button').each(function() {
+        if ($(this).attr('data-value') === $target.attr('data-value')) {
+            $(this).remove();
+            return false;
+        }
+    });
+    return true;
+};
+
+$('select#demo-5c').smartselect({
+    defaultView: 'expand',
+    toolbar: false,
+    callback: {
+        onOptionSelected: [ addButton ],
+        onOptionDeselected: [ removeButton ]
+    }
+});</pre>
+                        <hr>
+
+                        <h3 id="sec-5d">callback example 2</h3>
+                        <div class="demo">
+                            <select id="demo-5d" multiple>
+                                <optgroup label="gender" data-exclusive data-atleast="1">
+                                    <option value="male">male</option>
+                                    <option value="female">female</option>
+                                </optgroup>
+                                <optgroup label="sports" data-atleast="1">
+                                    <option value="decathlon">decathlon</option>
+                                    <option value="heptathlon">heptathlon</option>
+                                    <option value="synchronized Swimming">synchronized Swimming</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    var exOne = function($target, event) {
+                                        var val = $target.attr('data-value');
+                                        if (val === 'male') {
+                                            // always enable first
+                                            this.enableOptions([ 'decathlon' ]);
+                                            this.disableOptions([ 'heptathlon', 'synchronized Swimming' ]);
+                                        }
+                                        if (val === 'female') {
+                                            this.enableOptions([ 'heptathlon', 'synchronized Swimming' ]);            this.disableOptions([ 'decathlon' ]);
+                                        }
+                                        return true;
+                                    };
+
+                                    $('select#demo-5d').smartselect({
+                                        defaultView: 'expand',
+                                        toolbar: false,
+                                        callback: {
+                                            onOptionSelect: [ exOne ]
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt>Disable options base on selection</dt>
+                                <dd>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var exOne = function($target, event) {
+    var val = $target.attr('data-value');
+    if (val === 'male') {
+        // always enable first
+        this.enableOptions([ 'decathlon' ]);
+        this.disableOptions([ 'heptathlon', 'synchronized Swimming' ]);
+    }
+    if (val === 'female') {
+        this.enableOptions([ 'heptathlon', 'synchronized Swimming' ]);
+        this.disableOptions([ 'decathlon' ]);
+    }
+    return true;
+};
+
+$('select#demo-5d').smartselect({
+    defaultView: 'expand',
+    toolbar: false,
+    callback: {
+        onOptionSelect: [ exOne ]
+    }
+});</pre>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+
+                /* affix */
+                var $affix = $('.phossa-affix');
+
+                $('h2').each(function() {
+                    var $h2   = $(this);
+                    var $li   = $('<li><a href="#' + $h2.attr('id') + '">' +
+                                $h2.text()+ '</a></li>');
+                    $affix.children('ul').append($li);
+
+                    var $sub  = $h2.next('div').find('h3');
+                    if ($sub.length) {
+                        $ul = $('<ul class="nav"></ul>');
+                        $li.append($ul);
+                        $sub.each(function() {
+                            var $h3 = $(this);
+                            $ul.append('<li><a href="#' + $h3.attr('id') + '">' +
+                                $h3.text()+ '</a></li>');
+                        });
+                    }
+                });
+
+                $affix.affix({
+                    offset: {
+                        top: $affix.offset().top
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

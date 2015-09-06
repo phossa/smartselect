@@ -1,0 +1,26 @@
+/* demo.css */
+
+.container {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+select {
+    display: none;
+}
+
+.demo {
+    float: left;
+}
+
+.desc {
+    margin-left: 170px;
+}
+
+.desc pre {
+	background-color: #f0f0f0;
+}
+
+dd .btn {
+    margin-top: 4px;
+}

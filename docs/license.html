@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="smartselect, a smart jquery multiple select plugin">
+        <meta name="keywords" content="smartselect, phossa, jquery, bootstrap, multiple select, multiselect, jquery plugin, html select replacement">
+        <meta name="author" content="Hong Zhang">
+        <title>jQuery SmartSelect</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/phossa.css" rel="stylesheet" />
+        <link href="../dist/smartselect.min.css" rel="stylesheet" />
+        <link href="css/demo.css" rel="stylesheet" />
+        <style>
+            .desc { margin-left: 230px; }
+            h3 { margin-top: 25px; margin-bottom: 25px; }
+            li > button.btn-sm { padding: 0 6px 0 6px; }
+            ul.mylist > li { margin-top: 8px; }
+            span.step { margin-right: 8px; font-style: italic; }
+            span.step.active { background-color: #e0e0e0; }
+        </style>
+    </head>
+    <body data-spy="scroll" data-target=".scroll">
+        <!-- load scripts -->
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="../dist/jquery.smartselect.min.js"></script>
+
+        <!-- navbar -->
+        <nav class="navbar navbar-inverse navbar-static-top phossa-blue phossa-bottom-shadow" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><i class="fa fa-lg fa-fw fa-check-square-o"></i>SmartSelect</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html"><i class="fa fa-lg fa-fw fa-home"></i> Home</a></li>
+                    <li><a href="https://github.com/phossa/smartselect" target="_blank"><i class="fa fa-lg fa-fw fa-download"></i> Download</a></li>
+                    <li><a href="docs.html"><i class="fa fa-lg fa-fw fa-book"></i> Document</a></li>
+                    <li><a href="demo.html"><i class="fa fa-lg fa-fw fa-star-o"></i> Demo</a></li>
+                    <li class="active"><a href="license.html"><i class="fa fa-lg fa-fw fa-coffee"></i> License</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- container -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 scroll" role="complementary">
+                    <nav class="hidden-sm hidden-xs phossa-affix">
+                        <ul class="nav nav-stacked"></ul>
+                    </nav>
+                </div>
+                <div class="col-md-10" role="main">
+
+                    <h3 id="sec-1">Private Use</h3>
+                    <p>You are permitted to use the software and create and use the modified version for private purpose free of charge, provided that
+you do not distribute the modified version.</p>
+                    <hr />
+
+                    <h3 id="sec-2">Commercial Use</h3>
+                    <p>You need a license to use the software and create and use the modified version for commercial purpose, provided that you do not distribute the modified version.</p>
+                    <p><b>USD 49.00</b> fee is charged for a <i>single site license</i>.</p>
+                    <p>Currently, paypal email payment is the primary payment method. Please send an email to 'Hong Zhang &lt;smartselect AT 126.com&gt;' to request an paypal email invoice.</p>
+                    <hr />
+
+                    <h3 id="sec-5">Distribution</h3>
+                    <p>Distribution, reproduction of the original or derivative works is not allowed without author's permission.</p>
+                    <p>Please contact 'Hong Zhang &lt;smartselect AT 126.com&gt;' for a distribution license quote.</p>
+                    <hr />
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+
+                /* affix */
+                var $affix = $('.phossa-affix');
+
+                $('h3').each(function() {
+                    var $h3   = $(this);
+                    var $li   = $('<li><a href="#' + $h3.attr('id') + '">' +
+                                $h3.text()+ '</a></li>');
+                    $affix.children('ul').append($li);
+                });
+
+                $affix.affix({
+                    offset: {
+                        top: $affix.offset().top
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
