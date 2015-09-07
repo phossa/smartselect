@@ -1,0 +1,32 @@
+{
+  "name": "smartselect",
+  "version": "1.0.10",
+  "description": "SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of useful features which can not be found in other select plugins.",
+  "main": "index.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phossa/smartselect.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "js",
+    "jquery",
+    "smartselect",
+    "multiple select",
+    "multiselect",
+    "bootstrap"
+  ],
+  "author": "Hong Zhang <phossa@126.com>",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/phossa/smartselect/issues"
+  },
+  "homepage": "http://phossa.github.io/smartselect/docs/index.html"
+}
