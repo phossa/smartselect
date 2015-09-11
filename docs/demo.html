@@ -1167,6 +1167,8 @@ $("#btn-4bg").click(function() {
                                     // add 10 under 8
                                     $("#btn-4cb").click(function() {
                                       $ss4c.addOption({
+                                        input: true,
+                                        html:  '10',
                                         label: '10',
                                         value: '10'
                                       }, false, '8');
@@ -1704,7 +1706,7 @@ $('select#demo-5c').smartselect({
                                 <dt>Disable options base on selection</dt>
                                 <dd>
                                 <ul>
-                                    <li></li>
+                                    <li>on option select, call predefined callbacks.</li>
                                 </ul>
                                 </dd>
                             </dl>
@@ -1731,6 +1733,118 @@ $('select#demo-5d').smartselect({
         onOptionSelect: [ exOne ]
     }
 });</pre>
+                        <hr>
+                    </div>
+
+                    <h2 id="sec-6">Advanced</h2>
+                    <div>
+                        <h3 id="sec-6a">special options</h3>
+                        <div class="demo">
+                            <div id="demo-6a"></div>
+                            <script>
+                                $(document).ready(function() {
+                                    var $ss6a = $('#demo-6a').smartselect({
+                                        defaultView: 'level1+selected',
+                                        initialValues: [ '1//testInput', '2-1' ],
+                                        specialValueSeperator: '//',
+                                        aliases: {
+                                            'Special Option': [ '1//testInput', '2-1' ]
+                                        },
+                                        callback: {
+                                            onOptionSelect: [
+                                                // if inputbox has no value, disable select
+                                                function($target, event) {
+                                                    if ($target.find('input').val() === '') return false;
+                                                    return true;
+                                                }
+                                            ]
+                                        },
+                                        data: [
+                                            { group: true, label: 'Group One' },
+                                                { value: '1',
+                                                  'data-special': true,
+                                                  html: '<label class="ss-nobubble"><input type="text" placeholder="Please type" id="test6" class="form-control input-sm"></label>'
+                                                },
+                                                { value: '2', label: '2' },
+                                                { value: '2-1', label: '2-1', level: 2 },
+                                                { value: '3', label: '3'  },
+                                            { group: true, label: 'Group Two' },
+                                                { value: '4', label: '4' },
+                                                { value: '5', label: '5' },
+                                                { value: '6', label: '6' }
+                                        ]}).getsmartselect();
+
+                                    // select if inputbox has value, unselect if inputbox empty
+                                    $("#test6").on("focusout", function(e) {
+                                        var $jq = $(this);
+                                        var val = $jq.val();
+                                        if (val === "") {
+                                            $ss6a.deselectOptions([ '1' ]);
+                                        } else {
+                                            $ss6a.selectOption([ '1' ]);
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>input box as an option</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>all kinds of components can be used as an option</li>
+                                        <li>As long as the option is marked as <i>data-special</i></li>
+                                        <li>and three callbacks <i>getSpecialValue()</i>, <i>setSpecialValue()</i>, <i>getSpecialLabel()</i> defined.</li>
+                                        <li>class <i>ss-nobubble</i> to disable click event bubble up to &lt;li&gt;</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+$(document).ready(function() {
+    var $ss6a = $('#demo-6a').smartselect({
+        defaultView: 'level1+selected',
+        initialValues: [ '1//testInput', '2-1' ],
+        specialValueSeperator: '//',
+        aliases: {
+            'Special Option': [ '1//testInput', '2-1' ]
+        },
+        callback: {
+            onOptionSelect: [
+                // if inputbox has no value, disable select
+                function($target, event) {
+                    if ($target.find('input').val() === '') return false;
+                    return true;
+                }
+            ]
+        },
+        data: [
+            { group: true, label: 'Group One' },
+                { value: '1',
+                  'data-special': true,
+                  html: '&lt;label class="ss-nobubble"&gt;&lt;input type="text" placeholder="Please type" id="test6" class="form-control input-sm"&gt;&lt;/label&gt;'
+                },
+                { value: '2', label: '2' },
+                { value: '2-1', label: '2-1', level: 2 },
+                { value: '3', label: '3'  },
+            { group: true, label: 'Group Two' },
+                { value: '4', label: '4' },
+                { value: '5', label: '5' },
+                { value: '6', label: '6' }
+        ]}).getsmartselect();
+
+    // select if inputbox has value, unselect if inputbox empty
+    $("#test6").on("focusout", function(e) {
+        var $jq = $(this);
+        var val = $jq.val();
+        if (val === "") {
+            $ss6a.deselectOptions([ '1' ]);
+        } else {
+            $ss6a.selectOption([ '1' ]);
+        }
+    });
+});
+                        </pre>
                         <hr>
                     </div>
                 </div>

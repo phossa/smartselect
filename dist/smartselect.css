@@ -41,22 +41,24 @@
 }
 
 /* level indention */
-.smartselect .ss-group > a {
+.smartselect .ss-group > a,
+.smartselect .data-level-1.ss-nogrp > a {
 	padding-left: 30px;
 }
-.smartselect .data-level-1 > a {
+.smartselect .data-level-1 > a,
+.smartselect .data-level-2.ss-nogrp > a {
 	padding-left: 50px;
 }
-.smartselect .data-level-1.ss-nogrp > a {
-    padding-left: 30px;
-}
-.smartselect .data-level-2 > a {
+.smartselect .data-level-2 > a,
+.smartselect .data-level-3.ss-nogrp > a {
 	padding-left: 70px;
 }
-.smartselect .data-level-3 > a {
+.smartselect .data-level-3 > a,
+.smartselect .data-level-4.ss-nogrp > a {
 	padding-left: 90px;
 }
-.smartselect .data-level-4 > a {
+.smartselect .data-level-4 > a,
+.smartselect .data-level-5.ss-nogrp > a {
 	padding-left: 110px;
 }
 .smartselect .data-level-5 > a {

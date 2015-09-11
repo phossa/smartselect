@@ -13,7 +13,7 @@
  * @returns {undefined}
  */
 ;(function($, undefined) {
-    'use strict';
+    //'use strict';
 
     // PLUGIN NAMING
     // ====================================================
@@ -111,13 +111,13 @@
              * @description debug switch, 0 for no debug
              * @type {Integer}
              */
-            debug: 0,
+            debug: 1,
 
             /**
              * @description debug level, 2 - 9
              * @type {Integer}
              */
-            debugLevel: 5,
+            debugLevel: 9,
 
             /**
              * @description max data-level allowed
@@ -141,6 +141,44 @@
              */
             confirm: function(text) {
                 return confirm(text);
+            },
+
+            /**
+             * @description special callback to get option special label
+             * @param {jQuery} $li
+             * @param {SmartSelect} self
+             * @returns {String}
+             */
+            getSpecialLabel: function($li, self) {
+                return $li.find('input').val();
+            },
+
+            /**
+             * @description special callback to set option special value
+             * @param {String} value
+             * @param {jQuery|undefined} $li
+             * @param {SmartSelect} self
+             */
+            setSpecialValue: function(value, $li, self) {
+                var val = value.split(self.o.specialValueSeperator);
+                if (val[1] !== undefined) {
+                    if ($li === undefined && val[0] !== undefined) {
+                        $li = self._getOptionByValue(val[0]);
+                    }
+                    $li.find('input').val(val[1]);
+                }
+            },
+
+            /**
+             * @description special callback to get option special value
+             * @param {jQuery} $li
+             * @param {SmartSelect} self
+             * @returns {String}
+             */
+            getSpecialValue: function($li, self) {
+                return $li.attr(self.a.dataValue) +
+                    self.o.specialValueSeperator +
+                    $li.find('input').val();
             },
 
             /**
@@ -212,6 +250,12 @@
              * @type {String}
              */
             showSelectedSeperator: ', ',
+
+            /**
+             * @description seperator used in get/set special value
+             * @type {String}
+             */
+            specialValueSeperator: '::',
 
             /**
              * @description default view, can be combined with '+'
@@ -382,6 +426,9 @@
                 // checker
                 checker:        'ss-checker',
 
+                // no click bubble up
+                noBubble:       'ss-nobubble',
+
                 // alias line
                 alias:          'ss-alias'
             },
@@ -454,9 +501,10 @@
                 dataView:           'data-view',
                 dataMust:           'data-must',
                 dataLevel:          'data-level',
+                dataValue:          'data-value',
                 dataUpper:          'data-upper',
                 dataAtMost:         'data-atmost',
-                dataValue:          'data-value',
+                dataSpecial:        'data-special',
                 dataDivider:        'data-divider',
                 dataAtLeast:        'data-atleast',
                 dataExclusive:      'data-exclusive',
@@ -684,6 +732,7 @@
             if (this.isDisabled()) return [];
 
             var result = this.getSelectedPairs();
+
             return result.value;
         },
 
@@ -821,8 +870,8 @@
          * }
          *
          * @param {Object} info
-         * @param {ValueString,HTHMLElement,jQuery,IDstring} after
-         * @param {ValueString,HTHMLElement,jQuery,IDstring} parent
+         * @param {ValueString,HTHMLElement,jQuery} after
+         * @param {ValueString,HTHMLElement,jQuery} parent
          * @returns {Object} this
          * @public
          */
@@ -864,7 +913,7 @@
 
                     // add folder to the parent
                     if ($p.find('.' + this.m.folder).length === 0) {
-                        $(this.t.folder).insertAfter($p.find('.' + this.m.label));
+                        $p.children('a').append(this.t.folder);
                         $p.find('.' + this.m.folder + '.' + this.m.folderOpen)
                             .addClass(this.s.folderOpen);
                         $p.find('.' + this.m.folder + '.' + this.m.folderClose)
@@ -908,6 +957,9 @@
             } else {
                 info.level = 1;
             }
+
+            // default no group
+            if (info.ingroup === undefined) info.ingroup = false;
 
             // build html
             var oid  = this._getOid();
@@ -1002,13 +1054,17 @@
 
             if (this.isDisabled()) return undefined;
 
-            var result = { value: [], label: {} };
+            var result = { value: [], label: {}, text: [] };
             var self   = this;
+
             this._getSelectedOptions().each(function() {
                 var $jq = $(this);
-                var val = $jq.attr(self.a.dataValue);
+                var val = self._getOptionValue($jq);
+                var txt = self._getOptionLabel($jq);
+
+                result.label[val] = txt;
                 result.value[result.value.length] = val;
-                result.label[val] = $jq.find('.' + self.m.label).text();
+                result.text[result.text.length]   = txt;
             });
 
             return result;
@@ -1077,7 +1133,7 @@
 
         /**
          * @description expand this option
-         * @param {ValueString,HTHMLElement,jQuery,IDstring} li
+         * @param {ValueString,HTHMLElement,jQuery} li
          * @returns {Object} this
          * @public
          */
@@ -1087,7 +1143,7 @@
 
         /**
          * @description select or deselect an option
-         * @param {ValueString,HTHMLElement,jQuery,IDstring} li
+         * @param {ValueString,HTHMLElement,jQuery} li
          * @param {Boolean} triggerChange set FALSE to disable
          * @param {Boolean} setOption TRUE force select, FALSE force deselect
          * @returns {Object} this
@@ -1161,7 +1217,7 @@
 
         /**
          * @description force select an option
-         * @param {ValueString,HTHMLElement,jQuery,IDstring} li
+         * @param {ValueString,HTHMLElement,jQuery} li
          * @param {Boolean} triggerChange FALSE to disable
          * @returns {Object} this
          * @public
@@ -1176,7 +1232,7 @@
 
         /**
          * @description force select an option
-         * @param {ValueString,HTHMLElement,jQuery,IDstring} li
+         * @param {ValueString,HTHMLElement,jQuery} li
          * @param {Boolean} triggerChange FALSE to disable
          * @returns {Object} this
          * @public
@@ -1261,12 +1317,14 @@
                 var $opts = this.$dropdown
                         .find('.' + gid + '.' + this.m.option +
                         (inc ? '' : '.' + this.a.dataLevel + '-1'))
-                        .not('.' + this.m.disabled);
+                        .not('.' + this.m.disabled)     // ignore disabled options
+                        .not('.' + this.a.dataSpecial); // ignore special options
             } else {
                 var $opts = this.$dropdown
                         .find('.' + this.m.noGroup + '.' + this.m.option +
                         (inc ? '' : '.' + this.a.dataLevel + '-1'))
-                        .not('.' + this.m.disabled);
+                        .not('.' + this.m.disabled)
+                        .not('.' + this.a.dataSpecial);
             }
 
             if (this._isGroupMultiple($group) && !this._isAtMost()) {
@@ -1538,7 +1596,7 @@
 
         /**
          * @description select the option, no sync to <SELECT>
-         * @param {String,HTHMLElement,jQuery,IDString} li
+         * @param {ValueString,HTHMLElement,jQuery} li
          * @param {Boolean} triggerEvent FALSE to disable
          * @returns {Boolean}
          * @private
@@ -1547,9 +1605,21 @@
 
             this._debug('_selectOption');
 
+            // special value case ?
+            if (typeof li === 'string' &&
+                li.indexOf(this.o.specialValueSeperator) > -1) {
+                var setValue = li;
+            }
+
             // select by value
             var $li = li.jquery ? li : this._getOptionByValue(li);
+
             if ($li.length === 0) return false;
+
+            // set special value
+            if (setValue) {
+                this.o.setSpecialValue(setValue, $li, this);
+            }
 
             // trigger 'onOptionSelected' or not
             var trigger = triggerEvent ===  false ? false : true;
@@ -1576,7 +1646,7 @@
 
         /**
          * @description deselect the option, no sync to <SELECT>
-         * @param {String,HTHMLElement,jQuery,IDString} li
+         * @param {ValueString,HTHMLElement,jQuery} li
          * @param {Boolean} triggerEvent FALSE to disable
          * @returns {Boolean}
          * @private
@@ -1687,7 +1757,7 @@
 
         /**
          * @description get option by its value or other ids
-         * @param {String,HTHMLElement,jQuery,IDString} val
+         * @param {ValueString,HTHMLElement,jQuery} val
          * @returns {jQuery}
          * @private
          */
@@ -1703,6 +1773,12 @@
 
             // value
             val = val.toString();
+
+            // special value case
+            if (val.indexOf(this.o.specialValueSeperator) > -1) {
+                val = val.split(this.o.specialValueSeperator)[0];
+            }
+
             var data = this.$dropdown.data('mapping');
             if (data[val]) return $('#' + data[val]);
 
@@ -1805,7 +1881,7 @@
             this._debug('_matchAliasName');
 
             if (this.o.showSelectedInLabel) {
-                var v = this._getSelectedValues();
+                var v = this.getSelectedPairs().value;
                 var a = this.o.aliases;
                 if (v.length) {
                     for (var n in a) {
@@ -1923,8 +1999,8 @@
 
             // update toolbar folder icon
             if (this.$buttonUnfold) {
-                if (this.$dropdown.find('.' + this.m.folder + '.' + this.m.folderOpen)
-                    .filter(':hidden').length) {
+                if (this.$dropdown.find('.' + this.m.option)
+                    .not('.' + this.m.disabled).filter(':hidden').length) {
                     this.$buttonUnfold.find('.' + this.m.icon)
                         .removeClass(this.s.buttonFoldOpen)
                         .addClass(this.s.buttonUnfold);
@@ -2012,7 +2088,7 @@
 
                         data[data.length] = row;
                     } else {
-                        row[a.dataGroup] = true;
+                        row.group = true;
                         row.label = $node.attr('label');
 
                         // data-group-exclusive
@@ -2389,11 +2465,11 @@
                 .on('keydown', function(e) {
                     // RETURN entered
                     if (e.which === 13 && self.$save.val() !== '') {
-                        var vals = self._getSelectedValues();
+                        var vals = self.getSelectedPairs().value;
                         if (vals.length) {
                             self.addAlias(
                                 self.$save.val(),
-                                self._getSelectedValues()
+                                self.getSelectedPairs().value
                             );
                             self.$save.val('');
                             self.$buttonAlias.removeClass(self.m.open);
@@ -2482,7 +2558,7 @@
                 var row  = data[i];
 
                 // optgroup
-                if (row[this.a.dataGroup]) {
+                if (row.group) {
                     gid   = this._getOid();
                     html += this._buildOptGroupHtml(row, gid);
                     uids  = [ gid ];
@@ -2499,6 +2575,9 @@
                     oid   = this._getOid();
 
                     mapping[row.value] = oid;
+
+                    // fix row.level
+                    if (row.level === undefined) row.level = 1;
 
                     var next = data[i+1];
                     if (next && next.level && next.level > row.level) row.children = true;
@@ -2557,7 +2636,7 @@
 
             if (this.$buttonCancel) {
                 var old = this.$buttonCancel.data('cancel');
-                var val = this._getSelectedValues();
+                var val = this.getSelectedPairs().value;
                 if (this._arrayEqual(old, val)) return false;
             }
 
@@ -2637,9 +2716,18 @@
 
             this._debug('_buildOptionHtml');
 
+            // guess in group or not
+            if (row.ingroup === undefined) {
+                if (uids[0] !== undefined && uids[0] !== '') {
+                    row.ingroup = true;
+                } else {
+                    row.ingroup = false;
+                }
+            }
+
             // all upper level ids
             var myuids = [];
-            for(var i = row.ingroup ? 0 : 1; i < row.level; i++) {
+            for(var i = row.ingroup === false ? 1 : 0; i < row.level; i++) {
                 myuids[i] = uids[i];
             }
 
@@ -2649,15 +2737,17 @@
                 // classes
                 'class="' + this.m.option + ' ' +
                 // in group ?
-                (row.ingroup ? '' : this.m.noGroup + ' ') +
+                (row.ingroup === false ? this.m.noGroup + ' ' : '') +
                 // hide
-                this.m.hide + ' ' + (row.ingroup ? this.m.hide + '-' + row.level + ' ' : '') +
+                this.m.hide + ' ' + (row.ingroup === false ? '' : this.m.hide + '-' + row.level + ' ') +
                 // upper level ids as class name
                 myuids.join(' ') + ' ' +
                 // data-view class
                 (row[this.a.dataView] ? this.a.dataView + ' ' : '') +
                 // data-must class
                 (row[this.a.dataMust] ? this.a.dataMust + ' ' : '') +
+                // data-input marker
+                (row[this.a.dataSpecial] ? this.a.dataSpecial + ' ' : '') +
                 // data-level class
                 this.a.dataLevel + '-' + row.level +
                 // end of classes
@@ -2673,13 +2763,14 @@
                 this.a.dataValue + '="' + row.value + '" ' +
                 // data-level attribute
                 this.a.dataLevel + '="' + row.level + '" ' +
-                // label
-                '><a><i class="' + this.m.checker + ' ' + this.s.checker +
-                '"></i><span class="' + this.m.label +'">' + row.label + '</span>' +
+                // checker icon
+                '><a><i class="' + this.m.checker + ' ' + this.s.checker + '"></i>' +
+                // label or row.html
+                (row.html ? row.html : ('<span class="' + this.m.label +'">' + row.label + '</span>')) +
                 // folder
-                (row.children ? this.t.folder : '') +
+                (row.children ? this.t.folder : '')
                 // end option
-                '</a></li>';
+                + '</a></li>';
 
             return html;
         },
@@ -2760,7 +2851,13 @@
                     this.e.click,
                     '.' + m.option,
                     function(e) {
-                        self.toggleOption($(this));
+                        var $p = $(e.target).parentsUntil('.' + m.option).andSelf();
+                        // stop bubbling
+                        if ($p.filter('.' + m.noBubble).length) {
+
+                        } else {
+                            self.toggleOption($(this));
+                        }
                     }
                 );
 
@@ -2834,43 +2931,24 @@
          */
         _getOptionValue: function($li) {
             this._debug('_getOptionValue');
-            return $li.attr(this.a.dataValue);
+
+            return $li.hasClass(this.a.dataSpecial) ?
+                this.o.getSpecialValue($li, this) :
+                $li.attr(this.a.dataValue);
         },
 
         /**
-         * @description get selected options' values in array
-         * @returns {Array}
+         * @description get label of an option
+         * @param {jQuery} $li
+         * @returns {String}
          * @private
          */
-        _getSelectedValues: function() {
+        _getOptionLabel: function($li) {
+            this._debug('_getOptionLabel');
 
-            this._debug('_getSelectedValues');
-
-            var result = [];
-            var self   = this;
-            this._getSelectedOptions().each(function() {
-                result[result.length] = $(this).attr(self.a.dataValue);
-            });
-
-            return result;
-        },
-
-        /**
-         * @description get selected options labels in array
-         * @returns {Array}
-         * @private
-         */
-        _getSelectedLabels: function() {
-
-            this._debug('_getSelectedLabels');
-
-            var result = [];
-            var self   = this;
-            this._getSelectedOptions().each(function() {
-                result[result.length] = $(this).find('.' + self.m.label).text();
-            });
-
-            return result;
+            return $li.hasClass(this.a.dataSpecial) ?
+                this.o.getSpecialLabel($li, this) :
+                $li.children('a').text();
         },
 
         /**
@@ -2956,6 +3034,9 @@
          * @private
          */
         _searchOptions: function(str) {
+
+            this._debug('_searchOptions');
+
             var self = this;
 
             // trim
@@ -2979,8 +3060,8 @@
                         var $opt   = $(this);
 
                         // get value & label
-                        var value  = $opt.attr(self.a.dataValue);
-                        var label  = $opt.find('.' + self.m.label).text();
+                        var value = self._getOptionValue($opt);
+                        var label = self._getOptionLabel($opt);
 
                         // construct 'toSrch'
                         var toSrch = label;
@@ -3730,7 +3811,7 @@
                     var text = this.x.selectLabel;
 
                     // selected option text
-                    var labels = this._getSelectedLabels();
+                    var labels = this.getSelectedPairs().text;
                     if (labels.length) {
                         if (this.o.showSelectedCallback) {
                             text = this.o.showSelectedCallback.call(this, labels);
@@ -3763,7 +3844,7 @@
             this._debug('_saveOldValues');
 
             if (this.$buttonCancel) {
-                this.$buttonCancel.data('cancel', this._getSelectedValues());
+                this.$buttonCancel.data('cancel', this.getSelectedPairs().value);
             }
             return true;
         },
@@ -3927,7 +4008,7 @@
                 this._debug('_flushSelect');
 
                 // new values
-                var vals = this._getSelectedValues();
+                var vals = this.getSelectedPairs().value;
 
                 // empty first
                 this.$element.find('option:selected').prop('selected', false);
