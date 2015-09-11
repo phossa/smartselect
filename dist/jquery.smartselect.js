@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.10
+ * @version    1.0.13
  */
 
 /**
@@ -13,7 +13,7 @@
  * @returns {undefined}
  */
 ;(function($, undefined) {
-    //'use strict';
+    'use strict';
 
     // PLUGIN NAMING
     // ====================================================
@@ -74,7 +74,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.10';
+    SmartSelect.VERSION = '1.0.13';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -111,7 +111,7 @@
              * @description debug switch, 0 for no debug
              * @type {Integer}
              */
-            debug: 1,
+            debug: 0,
 
             /**
              * @description debug level, 2 - 9
@@ -249,7 +249,7 @@
              * @description seperator used in displaying option text
              * @type {String}
              */
-            showSelectedSeperator: ', ',
+            showSelectedSeperator: ',',
 
             /**
              * @description seperator used in get/set special value
@@ -262,6 +262,7 @@
              * @example
              *
              * 'root':          view root level only
+             * 'view':          respect 'data-view'
              * 'selected':      selected options and its upper levels
              * 'expand':        expand all levels
              * 'level1':        expand up to data-level = 1
@@ -269,7 +270,7 @@
              *
              * @type {String}
              */
-            defaultView: 'root+selected',
+            defaultView: 'root+selected+view',
 
             /**
              * @description auto click this.$buttonView after ...
@@ -2300,7 +2301,7 @@
                 .appendTo(this.$toolbar)
                 .on(this.e.buttonClick,
                     $.proxy(function() {
-                        this._setDefaultView(v, false);
+                        this._setDefaultView(v);
                         this._updateIcons();
                     }, this)
                 );
@@ -2379,8 +2380,16 @@
                             // uncheck
                             this.deselectAllOptions();
 
-                            // update icon
-                            this._updateIcons();
+                            // view selected only
+                            if (this.o.viewAfterCheckAll &&
+                                this.$buttonView
+                            ) {
+                                // trigger view
+                                this.$buttonView.trigger('click');
+                            } else {
+                                // update icon
+                                this._updateIcons();
+                            }
                         }, this)
                      );
             }
@@ -2533,6 +2542,9 @@
 
                     // start search
                     self._searchOptions(str);
+
+                    // update icons
+                    self._updateIcons();
                 });
         },
 
@@ -3885,10 +3897,9 @@
         /**
          * @description set default view
          * @param {String} view
-         * @param {Boolean} dataView FALSE to ignore 'data-view'
          * @private
          */
-        _setDefaultView: function(view, dataView) {
+        _setDefaultView: function(view) {
 
             var self  = this;
             var views = (view ? view : this.o.defaultView).split('+');
@@ -3939,12 +3950,11 @@
             }
 
             // honor data-view
-            if (dataView !== false) {
+            if ($.inArray('view', views) > -1) {
                 this.$dropdown
                     .find('.' + this.a.dataView)
                     .not('.' + this.m.disabled)
                     .each(function(i, li) {
-
                         var $li  = $(li);
 
                         // show uppers first
