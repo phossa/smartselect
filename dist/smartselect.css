@@ -29,6 +29,12 @@
   margin-top: 8px;
   margin-left: 5px;
 }
+.smartselect > button > .ss-caret {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 /* hide different levels */
 .smartselect .ss-hide.ss-hide-0,
