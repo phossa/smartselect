@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.13
+ * @version    1.0.15
  */
 
 /**
@@ -74,7 +74,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.13';
+    SmartSelect.VERSION = '1.0.15';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -114,10 +114,10 @@
             debug: 0,
 
             /**
-             * @description debug level, 2 - 9
+             * @description debug level, 2 - 20
              * @type {Integer}
              */
-            debugLevel: 9,
+            debugLevel: 16,
 
             /**
              * @description max data-level allowed
@@ -333,7 +333,7 @@
                 select:         'dropdown-toggle btn btn-default',
                 selectIcon:     '',
                 selectLabel:    '',
-                selectCaret:    'caret pull-right',
+                selectCaret:    'caret',
 
                 // dropdown style
                 dropdown:       'dropdown-menu',
@@ -372,7 +372,8 @@
                 divider:        'divider',
 
                 // checker style
-                checker:        'fa fa-check',
+                checker:        'fa fa-fw fa-check-square-o',
+                checkerNo:      'fa fa-fw fa-square-o',
 
                 // dropup style
                 dropup:         'dropup',
@@ -426,6 +427,7 @@
 
                 // checker
                 checker:        'ss-checker',
+                checkerNo:      'ss-checkno',
 
                 // no click bubble up
                 noBubble:       'ss-nobubble',
@@ -2384,12 +2386,10 @@
                             if (this.o.viewAfterCheckAll &&
                                 this.$buttonView
                             ) {
-                                // trigger view
-                                this.$buttonView.trigger('click');
-                            } else {
-                                // update icon
-                                this._updateIcons();
+                                // get default view
+                                this._setDefaultView(this.o.defaultView);
                             }
+                            this._updateIcons();
                         }, this)
                      );
             }
@@ -2777,6 +2777,7 @@
                 this.a.dataLevel + '="' + row.level + '" ' +
                 // checker icon
                 '><a><i class="' + this.m.checker + ' ' + this.s.checker + '"></i>' +
+                '<i class="' + this.m.checkerNo + ' ' + this.s.checkerNo + '"></i>' +
                 // label or row.html
                 (row.html ? row.html : ('<span class="' + this.m.label +'">' + row.label + '</span>')) +
                 // folder
@@ -3667,16 +3668,19 @@
 
             // onPluginLoaded or etc.
             } else {
-
                 // set the least options in groups
                 var self = this;
-
                 this._getGroup().filter('[' + this.a.dataAtLeast + ']')
                     .each(function() {
-                        var least = parseInt($(this).attr(self.a.dataAtLeast));
+                        var $grp  = $(this);
+                        var least = parseInt($grp.attr(self.a.dataAtLeast));
+                        var done  = self._getSelectedOptions()
+                                .filter('.' + $grp.attr('id')).length;
+                        if (done >= least) return true;
+
                         self._selectMatchedOptions(
                             self.$dropdown
-                                .children('.' + $(this).attr('id'))
+                                .children('.' + $grp.attr('id'))
                                 .not('.' + self.m.disabled)
                                 .slice(0, least),
                             true, true, false
@@ -3816,15 +3820,19 @@
 
                 this._debug('_setSelectLabel');
 
+                var long;
                 if (typeof txt === 'string') {
                     var text = txt;
+                    long = txt;
                 } else {
                     // default text
                     var text = this.x.selectLabel;
+                    long = text;
 
                     // selected option text
                     var labels = this.getSelectedPairs().text;
                     if (labels.length) {
+                        long = labels.join(',');
                         if (this.o.showSelectedCallback) {
                             text = this.o.showSelectedCallback.call(this, labels);
                         } else {
@@ -3840,6 +3848,7 @@
                 // set it
                 this.$select
                     .find('.' + this.m.label)
+                    .attr('title', long)
                     .html(text);
             }
 
@@ -4062,7 +4071,7 @@
             }
 
             // methods
-            if (typeof options === 'string') data[options].apply($this, extras);
+            if (typeof options === 'string') data[options].apply(data, extras);
         });
     };
 

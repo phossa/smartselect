@@ -71,10 +71,16 @@
 }
 
 /* optgroup */
-.smartselect .ss-group {
-	font-size: 15px;
+.smartselect .ss-group .ss-label {
+    font-size: 15px;
+    font-weight: 600;
 }
-
+/*
+.smartselect .ss-toolbar button {
+    margin-bottom: 0 !important;
+    margin-top: -1px !important;
+}
+*/
 /* folder open/collapse */
 .smartselect .ss-folder {
 	font-size: 14px;
@@ -96,13 +102,20 @@
 }
 
 /* checker */
-.smartselect .ss-checker {
-	display: none;
+.smartselect .ss-checker,
+.smartselect .ss-checkno {
 	width: 20px;
 	padding-right: 6px;
 	margin-left: -20px;
 }
-.smartselect .active .ss-checker {
+
+.smartselect .ss-checker,
+.smartselect .active .ss-checkno {
+  display: none;
+}
+
+.smartselect .active .ss-checker,
+.smartselect .ss-checkno {
 	display: inline;
 }
 
