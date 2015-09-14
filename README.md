@@ -9,6 +9,10 @@ SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of
 - Almost everything is configurable.
 - Bootstrap compatible but not required.
 
+# Demo
+Demo: [http://phossa.github.io/smartselect/docs/demo.html](http://phossa.github.io/smartselect/docs/demo.html)
+![Example 1](docs/img/example-1.png?raw=true "Snapshot")
+
 # Version
 1.0.15
 
