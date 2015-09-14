@@ -9,5 +9,8 @@ SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of
 - Almost everything is configurable.
 - Bootstrap compatible but not required.
 
+# Version
+1.0.15
+
 # Dependencies
 jQuery >= 1.9.0
