@@ -2076,7 +2076,7 @@
 
                         if ($node.attr('selected') !== undefined) {
                             var len = self.o.initialValues.length;
-                            if (!this._isMultiple && len) {
+                            if (!self._isMultiple && len) {
                                 // single select
                                 // ignore selected if initialValues set already
                             } else {
