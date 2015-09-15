@@ -14,7 +14,7 @@ Demo: [http://phossa.github.io/smartselect/docs/demo.html](http://phossa.github.
 ![Example 1](docs/img/example-1.png?raw=true "Snapshot")
 
 # Version
-1.0.15
+1.0.16
 
 # Dependencies
 jQuery >= 1.9.0

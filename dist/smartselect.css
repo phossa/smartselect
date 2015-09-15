@@ -159,10 +159,15 @@
 .smartselect .ss-alias .ss-icon {
     margin-right: 10px;
 }
-.smartselect .ss-alias .ss-caret.pull-right {
-    margin-top: 3px;
+.smartselect .ss-alias {
+  position: relative;
 }
-
+.smartselect .ss-alias .ss-caret {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .smartselect .ss-alias .ss-label {
     padding-right: 30px;
 }

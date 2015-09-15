@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.15
+ * @version    1.0.16
  */
 
 /**
@@ -13,7 +13,7 @@
  * @returns {undefined}
  */
 ;(function($, undefined) {
-    'use strict';
+    //'use strict';
 
     // PLUGIN NAMING
     // ====================================================
@@ -74,7 +74,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.15';
+    SmartSelect.VERSION = '1.0.16';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -192,6 +192,12 @@
              * @type {Boolean}
              */
             closeOtherSmartSelect: true,
+
+            /**
+             * @description close smartselect dropdowns if clicked outside
+             * @type {Boolean}
+             */
+            closeOnClickOutside: false,
 
             /**
              * @description default values, array of strings
@@ -382,7 +388,7 @@
                 buttonAlias:    'fa fa-fw fa-star-o',
                 alias:          '',
                 aliasIcon:      'fa fa-star-o',
-                aliasCaret:     'fa fa-times pull-right'
+                aliasCaret:     'fa fa-times'
             },
 
             // ============================
@@ -592,7 +598,10 @@
                 '_setSelectLabel',
 
                 // set lable to alias name if matches
-                '_matchAliasName'
+                '_matchAliasName',
+
+                // force sync select
+                '_syncSelect'
             ],
 
             onDropdownShow: [
@@ -760,7 +769,7 @@
             if (this.isDisabled()) return this;
 
             // force close dropdown
-            this.toggleDropdown(true);
+            this.closeDropdown();
 
             // disable select
             this.$select.addClass(this.m.disabled);
@@ -1123,7 +1132,7 @@
                             .not(this.$container)
                             .each(function() {
                                 var elem = $(this).data(fullName);
-                                $(elem).data(fullName).toggleDropdown(true);
+                                $(elem).data(fullName).closeDropdown();
                             });
                     }
                     this.$container.addClass(this.m.open);
@@ -2067,7 +2076,12 @@
 
                         if ($node.attr('selected') !== undefined) {
                             var len = self.o.initialValues.length;
-                            self.o.initialValues[len] = row.value;
+                            if (!this._isMultiple && len) {
+                                // single select
+                                // ignore selected if initialValues set already
+                            } else {
+                                self.o.initialValues[len] = row.value;
+                            }
                         }
 
                         // level default to 1
@@ -2873,6 +2887,23 @@
                         }
                     }
                 );
+
+            // click out of $container will trigger close dropdowns
+            if (this.o.closeOnClickOutside) {
+                $(document).on(
+                    this.e.click,
+                    function(e) {
+                        if ($(e.target).parents('.' + self.m.container).length === 0) {
+                            $('.' + self.m.container)
+                                .filter('.' + self.m.open)
+                                .each(function() {
+                                    var elem = $(this).data(fullName);
+                                    $(elem).data(fullName).closeDropdown();
+                                });
+                        }
+                    }
+                );
+            }
 
             return this;
         },
