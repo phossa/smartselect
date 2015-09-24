@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.16
+ * @version    1.0.17
  */
 
 /**
@@ -74,7 +74,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.16';
+    SmartSelect.VERSION = '1.0.17';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -530,6 +530,15 @@
                 selectLabel:        'Smart Select',
                 labelTemplate:      '# selected',
                 disabled:           'Disabled',
+
+                // button title
+                buttonSearch:   'search options',
+                buttonAlias:    'option aliases',
+                buttonView:     'view only selected',
+                buttonUnfold:   'expanded view',
+                buttonCancel:   'cancel selected options',
+                buttonCheckAll: 'select all',
+                buttonUnCheck:  'deselect all',
 
                 // placeholder
                 aliasPlaceholder:   'Save as alias',
@@ -2314,6 +2323,7 @@
                 this.o.toolbar.buttonView : 'root+selected';
 
             this.$buttonView = this._buildToolbtn(this.s.buttonView)
+                .attr('title', this.x.buttonView)
                 .appendTo(this.$toolbar)
                 .on(this.e.buttonClick,
                     $.proxy(function() {
@@ -2332,6 +2342,7 @@
             this._debug('_buttonUnfold');
 
             this.$buttonUnfold = this._buildToolbtn(this.s.buttonUnfold)
+                .attr('title', this.x.buttonUnfold)
                 .appendTo(this.$toolbar)
                 .on(
                     this.e.buttonClick,
@@ -2354,6 +2365,7 @@
             // only isMultiple
             if (this._isMultiple) {
                 this.$buttonCheckAll = this._buildToolbtn(this.s.buttonCheckAll)
+                    .attr('title', this.x.buttonCheckAll)
                     .appendTo(this.$toolbar)
                     .on(
                         this.e.buttonClick,
@@ -2388,6 +2400,7 @@
             // only isMultiple
             if (this._isMultiple) {
                 this.$buttonUnCheck = this._buildToolbtn(this.s.buttonUnCheck)
+                    .attr('title', this.x.buttonUnCheck)
                     .appendTo(this.$toolbar)
                     .on(
                         this.e.buttonClick,
@@ -2418,6 +2431,7 @@
             this._debug('_buttonCancel');
 
             this.$buttonCancel = this._buildToolbtn(this.s.buttonCancel)
+                .attr('title', this.x.buttonCancel)
                 .appendTo(this.$toolbar)
                 .on(
                     this.e.buttonClick,
@@ -2457,6 +2471,7 @@
             // <div> container
             this.$buttonAlias = $(this.t.buttonGroup)
                 .addClass(this.s.buttonGroup + ' ' + this.m.button)
+                .attr('title', this.x.buttonAlias)
                 .appendTo(this.$toolbar)
                 .append(this._buildToolbtn(this.s.buttonAlias, true))
                 .on(
@@ -2522,6 +2537,7 @@
             this.$buttonSearch = $(this.t.buttonGroup)
                 .addClass(this.s.buttonGroup + ' ' + this.s.dropup +
                     ' ' + this.m.button)
+                .attr('title', this.x.buttonSearch)
                 .appendTo(this.$toolbar)
                 .append(this._buildToolbtn(this.s.buttonSearch, true))
                 .on(
