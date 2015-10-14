@@ -28,5 +28,11 @@
   "bugs": {
     "url": "https://github.com/phossa/smartselect/issues"
   },
-  "homepage": "http://phossa.github.io/smartselect/docs/index.html"
+  "dependencies": {
+    "jquery": ">=1.9.0"
+  },
+  "homepage": "http://phossa.github.io/smartselect/docs/index.html",
+  "docs": "http://phossa.github.io/smartselect/docs/docs.html",
+  "demo": "http://phossa.github.io/smartselect/docs/demo.html",
+  "bugs": "https://github.com/phossa/smartselect/issues"
 }

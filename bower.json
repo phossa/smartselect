@@ -13,6 +13,10 @@
     "multiselect",
     "bootstrap"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/phossa/smartselect.git"
+  },
   "main": [
     "./dist/jquery.smartselect.min.js",
     "./dist/smartselect.min.css"
