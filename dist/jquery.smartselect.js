@@ -30,6 +30,8 @@
     // plugin fullname
     var fullName        = pluginPrefix + '.' + pluginName;
 
+    var searchTimeout = false;
+
     // SMARTSELECT PLUGIN
     // ====================================================
 
@@ -2564,17 +2566,17 @@
             $input.find('input').addClass(this.s.inputBox)
                 .attr('placeholder', this.x.searchPlaceholder)
                 .on('focus keyup', function(e) {
-
                     // ignore RETURN
                     if (e.which === 13) return false;
 
                     var str = $(this).val();
-
-                    // start search
-                    self._searchOptions(str);
-
-                    // update icons
-                    self._updateIcons();
+                    if (searchTimeout) { clearTimeout(searchTimeout); }
+                    searchTimeout = setTimeout(function () {
+                        // start search
+                        self._searchOptions(str);
+                        // update icons
+                        self._updateIcons();
+                    }, 250);
                 });
         },
 
