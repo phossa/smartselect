@@ -30,12 +30,8 @@
     // plugin fullname
     var fullName        = pluginPrefix + '.' + pluginName;
 
-<<<<<<< HEAD
-    // searche timeout 
+    // searche timeout
     var searchTimeout   = false;
-=======
-    var searchTimeout = false;
->>>>>>> origin/master
 
     // SMARTSELECT PLUGIN
     // ====================================================
@@ -2575,10 +2571,7 @@
                     if (e.which === 13) return false;
 
                     var str = $(this).val();
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
                     if (searchTimeout) { clearTimeout(searchTimeout); }
                     searchTimeout = setTimeout(function () {
                         // start search
