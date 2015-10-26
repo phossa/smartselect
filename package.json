@@ -1,6 +1,6 @@
 {
   "name": "smartselect",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of useful features which can not be found in other select plugins.",
   "main": "index.html",
   "directories": {

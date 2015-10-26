@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.17
+ * @version    1.0.18
  */
 
 /**
@@ -29,6 +29,9 @@
 
     // plugin fullname
     var fullName        = pluginPrefix + '.' + pluginName;
+
+    // searche timeout 
+    var searchTimeout   = false;
 
     // SMARTSELECT PLUGIN
     // ====================================================
@@ -74,7 +77,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.17';
+    SmartSelect.VERSION = '1.0.18';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -2564,17 +2567,18 @@
             $input.find('input').addClass(this.s.inputBox)
                 .attr('placeholder', this.x.searchPlaceholder)
                 .on('focus keyup', function(e) {
-
                     // ignore RETURN
                     if (e.which === 13) return false;
 
                     var str = $(this).val();
 
-                    // start search
-                    self._searchOptions(str);
-
-                    // update icons
-                    self._updateIcons();
+                    if (searchTimeout) { clearTimeout(searchTimeout); }
+                    searchTimeout = setTimeout(function () {
+                        // start search
+                        self._searchOptions(str);
+                        // update icons
+                        self._updateIcons();
+                    }, 250);
                 });
         },
 
