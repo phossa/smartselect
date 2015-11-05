@@ -3871,19 +3871,19 @@
 
                 this._debug('_setSelectLabel');
 
-                var long;
+                var longString;
                 if (typeof txt === 'string') {
                     var text = txt;
-                    long = txt;
+                    longString = txt;
                 } else {
                     // default text
                     var text = this.x.selectLabel;
-                    long = text;
+                    longString = text;
 
                     // selected option text
                     var labels = this.getSelectedPairs().text;
                     if (labels.length) {
-                        long = labels.join(',');
+                        longString = labels.join(',');
                         if (this.o.showSelectedCallback) {
                             text = this.o.showSelectedCallback.call(this, labels);
                         } else {
@@ -3899,7 +3899,7 @@
                 // set it
                 this.$select
                     .find('.' + this.m.label)
-                    .attr('title', long)
+                    .attr('title', longString)
                     .html(text);
             }
 
