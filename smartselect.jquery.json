@@ -1,14 +1,14 @@
 {
     "name": "smartselect",
     "title": "jQuery SmartSelect",
-    "description": "SmartSelect is a jQuery multiple select plugin. It is nice, fast and has lots of useful features which can not be found in other select plugins.",
+    "description": "SmartSelect is a jQuery multiselect and tree / hierarchy select plugin with bootstrap style. It is 10x faster than similar plugins and supports complex data relations.",
     "keywords": [
         "smartselect",
         "multiple select",
         "multiselect",
         "bootstrap"
     ],
-    "version": "1.0.18",
+    "version": "1.0.19",
     "author": {
         "name": "Hong Zhang",
         "url": "https://github.com/phossa"
