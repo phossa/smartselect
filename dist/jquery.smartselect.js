@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.19
+ * @version    1.0.20
  */
 
 /**
@@ -74,7 +74,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.19';
+    SmartSelect.VERSION = '1.0.20';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -291,6 +291,13 @@
             viewAfterCheckAll:  true,
             viewAfterCancel: true,
             viewAfterAlias: true,
+
+            /**
+             * @description force click buttonUnCheck trigger event
+             * @type {Boolean}
+             * @since 1.0.20
+             */
+            forceUnCheckTriggerEvent: false,
 
             /**
              * @description close after click an alias
@@ -1304,19 +1311,25 @@
 
         /**
          * @description deselect all options
+         * @param {Boolean} forceTriggerEvent TRUE to force trigger event
          * @returns {Object} this
          * @public
          */
-        deselectAllOptions: function() {
+        deselectAllOptions: function(forceTriggerEvent) {
 
             this._debug('deselectAllOptions');
 
             if (this.isDisabled()) return this;
 
-            this.$dropdown
-                .find('.' + this.m.active + '.' + this.m.option)
-                .not('.' + this.m.disabled)
-                .removeClass(this.m.active);
+            /* added 1.0.20 */
+            if (forceTriggerEvent === true) {
+                this.deselectOptions(this.getValues());
+            } else {
+                this.$dropdown
+                    .find('.' + this.m.active + '.' + this.m.option)
+                    .not('.' + this.m.disabled)
+                    .removeClass(this.m.active);
+            }
 
             // fire callbacks without trigger event
             this._fireCallbacks('onPluginLoaded', this.$element);
@@ -2413,7 +2426,9 @@
                         $.proxy(function() {
 
                             // uncheck
-                            this.deselectAllOptions();
+                            this.deselectAllOptions(
+                                this.o.forceUnCheckTriggerEvent
+                            );
 
                             // view selected only
                             if (this.o.viewAfterCheckAll &&

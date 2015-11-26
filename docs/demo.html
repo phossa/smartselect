@@ -534,7 +534,8 @@ $("select#demo-2c").smartselect({
                             </select>
                             <script>
                                 $(document).ready(function() {
-                                    $("select#demo-2d").smartselect({
+                                    var $ss2d = $("select#demo-2d").smartselect({
+                                        forceUnCheckTriggerEvent: true,
                                         toolbar: {
                                             buttonSearch:   true,
                                             buttonAlias:    true,
@@ -544,7 +545,14 @@ $("select#demo-2c").smartselect({
                                             buttonCheckAll: true,
                                             buttonUnCheck:  true
                                         }
-                                    });
+                                    }).getsmartselect();
+
+                                    $ss2d.addCallback(
+                                        'onOptionDeselected',
+                                        function($target, event) {
+                                            alert('you deselected ' + $target.attr('data-value'));
+                                        }
+                                    );
                                 });
                             </script>
                         </div>
