@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.20
+ * @version    1.0.21
  */
 
 /**
@@ -74,7 +74,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.20';
+    SmartSelect.VERSION = '1.0.21';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -295,7 +295,7 @@
             /**
              * @description force click buttonUnCheck trigger event
              * @type {Boolean}
-             * @since 1.0.20
+             * @since 1.0.21
              */
             forceUnCheckTriggerEvent: false,
 
@@ -623,7 +623,11 @@
                 '_matchAliasName',
 
                 // force sync select
-                '_syncSelect'
+                '_syncSelect',
+
+                // disabled initially ?
+                // added 1.0.21
+                '_disabledSelect'
             ],
 
             onDropdownShow: [
@@ -799,6 +803,10 @@
             // update label with a disabled notice
             this._setSelectLabel(this.x.disabled);
 
+            // added 1.0.21, sync with <SELECT>
+            if (this._isSelect) {
+                this.$element.prop('disabled', true);
+            }
             return this;
         },
 
@@ -814,6 +822,11 @@
             if (this.isDisabled()) {
                 this.$select.removeClass(this.m.disabled);
                 this._triggerEvent('onOptionChanged');
+
+                // added 1.0.21, sync with <SELECT>
+                if (this._isSelect) {
+                    this.$element.prop('disabled', false);
+                }
             }
 
             return this;
@@ -2081,6 +2094,12 @@
                 if (atMost !== undefined) {
                     this.o.atMost = parseInt(atMost);
                 }
+
+                // is this <SELECT> disabled initially ?
+                // added 1.0.21
+                if (this.$element.attr('disabled') !== undefined) {
+                    this.o.disabled = true;
+                }
             }
 
             // extract <OPTION>, <OPTGROUP>
@@ -2102,6 +2121,11 @@
                         row.label    = $node.text();
                         row.ingroup  = $element !== undefined;
 
+                        // added 1.0.21
+                        // parse disable attr in orig <SELECT>
+                        if ($node.attr('disabled') !== undefined) {
+                            row.disabled = true;
+                        }
                         if ($node.attr('selected') !== undefined) {
                             var len = self.o.initialValues.length;
                             if (!self._isMultiple && len) {
@@ -2814,6 +2838,8 @@
                 (row[this.a.dataMust] ? this.a.dataMust + ' ' : '') +
                 // data-input marker
                 (row[this.a.dataSpecial] ? this.a.dataSpecial + ' ' : '') +
+                // added 1.0.21 for initially disabled option
+                (row.disabled === true ? this.m.disabled + ' ' : '') +
                 // data-level class
                 this.a.dataLevel + '-' + row.level +
                 // end of classes
@@ -3447,6 +3473,19 @@
             }
 
             return true;
+        },
+
+        /**
+         * added 1.0.21
+         *
+         * @description initial <SELECT> is disabled or not
+         * @private
+         */
+        _disabledSelect: function() {
+            this._debug('_setDefaultValues');
+            if (this._isSelect && this.o.disabled === true) {
+                this.disableSelect();
+            }
         },
 
         /**
