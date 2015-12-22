@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.21
+ * @version    1.0.22
  */
 
 /**
@@ -531,6 +531,7 @@
                 dataAtLeast:        'data-atleast',
                 dataExclusive:      'data-exclusive',
                 dataInclusive:      'data-inclusive',
+                dataNotSelectable:  'data-not-selectable',
                 dataLevelInclusive: 'data-level-inc',
                 dataGroupExclusive: 'data-group-exclusive'
             },
@@ -2155,6 +2156,11 @@
                         var inc = $node.attr(a.dataInclusive);
                         if (inc !== undefined) row[a.dataInclusive] = inc.length ? inc : '_';
 
+                        // data-not-selectable
+                        if ($node.attr(a.dataNotSelectable) !== undefined){
+                        	row.notSelectable = true;
+                        }
+
                         data[data.length] = row;
                     } else {
                         row.group = true;
@@ -2668,7 +2674,7 @@
 
                     // fix row.level
                     if (row.level === undefined) row.level = 1;
-
+                    if (row.notSelectable === undefined) row.notSelectable = false;
                     var next = data[i+1];
                     if (next && next.level && next.level > row.level) row.children = true;
 
@@ -2803,7 +2809,7 @@
          * @TODO
          */
         _buildOptionHtml: function(row, oid, uids) {
-
+        	
             this._debug('_buildOptionHtml');
 
             // guess in group or not
@@ -2825,7 +2831,7 @@
                 // id
                 '<li id="' + oid + '" ' +
                 // classes
-                'class="' + this.m.option + ' ' +
+                'class="' + (row.notSelectable ? '' : this.m.option) + ' ' +
                 // in group ?
                 (row.ingroup === false ? this.m.noGroup + ' ' : '') +
                 // hide
@@ -2856,8 +2862,8 @@
                 // data-level attribute
                 this.a.dataLevel + '="' + row.level + '" ' +
                 // checker icon
-                '><a><i class="' + this.m.checker + ' ' + this.s.checker + '"></i>' +
-                '<i class="' + this.m.checkerNo + ' ' + this.s.checkerNo + '"></i>' +
+                '><a>'+
+                (row.notSelectable ? '' : '<i class="' + this.m.checker + ' ' + this.s.checker + '"></i><i class="' + this.m.checkerNo + ' ' + this.s.checkerNo + '"></i>')+
                 // label or row.html
                 (row.html ? row.html : ('<span class="' + this.m.label +'">' + row.label + '</span>')) +
                 // folder
