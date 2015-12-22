@@ -2116,6 +2116,11 @@
                             data[data.length] = row;
                             return true;
                         }
+                        
+                        // it is empty option
+                        if ($node.val().trim() === '' && $node.text().trim() === ''){
+                        	return true;
+                        }
 
                         // normal option
                         row.value    = $node.val();
