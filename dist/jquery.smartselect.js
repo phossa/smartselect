@@ -4,7 +4,7 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.22
+ * @version    1.0.21
  */
 
 /**
@@ -443,6 +443,7 @@
 
                 // option marker
                 option:         'ss-option',
+                optionNotSelectable: 'ss-option-off',
 
                 // checker
                 checker:        'ss-checker',
@@ -2160,10 +2161,10 @@
                         // data-inclusive
                         var inc = $node.attr(a.dataInclusive);
                         if (inc !== undefined) row[a.dataInclusive] = inc.length ? inc : '_';
-
+                        
                         // data-not-selectable
                         if ($node.attr(a.dataNotSelectable) !== undefined){
-                        	row.notSelectable = true;
+                        	row.notSelectable = $node.data('notSelectable');
                         }
 
                         data[data.length] = row;
@@ -2679,7 +2680,10 @@
 
                     // fix row.level
                     if (row.level === undefined) row.level = 1;
+                    
+                    // fix not selectable
                     if (row.notSelectable === undefined) row.notSelectable = false;
+
                     var next = data[i+1];
                     if (next && next.level && next.level > row.level) row.children = true;
 
@@ -2814,7 +2818,7 @@
          * @TODO
          */
         _buildOptionHtml: function(row, oid, uids) {
-        	
+
             this._debug('_buildOptionHtml');
 
             // guess in group or not
@@ -2836,7 +2840,7 @@
                 // id
                 '<li id="' + oid + '" ' +
                 // classes
-                'class="' + (row.notSelectable ? '' : this.m.option) + ' ' +
+                'class="' + this.m.option +  (row.notSelectable ? ' '+this.m.optionNotSelectable : '') +' ' +
                 // in group ?
                 (row.ingroup === false ? this.m.noGroup + ' ' : '') +
                 // hide
@@ -2869,6 +2873,7 @@
                 // checker icon
                 '><a>'+
                 (row.notSelectable ? '' : '<i class="' + this.m.checker + ' ' + this.s.checker + '"></i><i class="' + this.m.checkerNo + ' ' + this.s.checkerNo + '"></i>')+
+
                 // label or row.html
                 (row.html ? row.html : ('<span class="' + this.m.label +'">' + row.label + '</span>')) +
                 // folder
@@ -2953,7 +2958,7 @@
                 )
                 .on( // click on option
                     this.e.click,
-                    '.' + m.option,
+                    '.' + m.option + ':not(.'+m.optionNotSelectable+')',
                     function(e) {
                         var $p = $(e.target).parentsUntil('.' + m.option).andSelf();
                         // stop bubbling
