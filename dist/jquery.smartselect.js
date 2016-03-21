@@ -443,6 +443,7 @@
 
                 // option marker
                 option:         'ss-option',
+                optionNotSelectable: 'ss-option-off',
 
                 // checker
                 checker:        'ss-checker',
@@ -531,6 +532,7 @@
                 dataAtLeast:        'data-atleast',
                 dataExclusive:      'data-exclusive',
                 dataInclusive:      'data-inclusive',
+                dataNotSelectable:  'data-not-selectable',
                 dataLevelInclusive: 'data-level-inc',
                 dataGroupExclusive: 'data-group-exclusive'
             },
@@ -2115,6 +2117,11 @@
                             data[data.length] = row;
                             return true;
                         }
+                        
+                        // it is empty option
+                        if ($node.val().trim() === '' && $node.text().trim() === ''){
+                        	return true;
+                        }
 
                         // normal option
                         row.value    = $node.val();
@@ -2154,6 +2161,11 @@
                         // data-inclusive
                         var inc = $node.attr(a.dataInclusive);
                         if (inc !== undefined) row[a.dataInclusive] = inc.length ? inc : '_';
+                        
+                        // data-not-selectable
+                        if ($node.attr(a.dataNotSelectable) !== undefined){
+                        	row.notSelectable = $node.data('notSelectable');
+                        }
 
                         data[data.length] = row;
                     } else {
@@ -2668,6 +2680,9 @@
 
                     // fix row.level
                     if (row.level === undefined) row.level = 1;
+                    
+                    // fix not selectable
+                    if (row.notSelectable === undefined) row.notSelectable = false;
 
                     var next = data[i+1];
                     if (next && next.level && next.level > row.level) row.children = true;
@@ -2825,7 +2840,7 @@
                 // id
                 '<li id="' + oid + '" ' +
                 // classes
-                'class="' + this.m.option + ' ' +
+                'class="' + this.m.option +  (row.notSelectable ? ' '+this.m.optionNotSelectable : '') +' ' +
                 // in group ?
                 (row.ingroup === false ? this.m.noGroup + ' ' : '') +
                 // hide
@@ -2856,8 +2871,9 @@
                 // data-level attribute
                 this.a.dataLevel + '="' + row.level + '" ' +
                 // checker icon
-                '><a><i class="' + this.m.checker + ' ' + this.s.checker + '"></i>' +
-                '<i class="' + this.m.checkerNo + ' ' + this.s.checkerNo + '"></i>' +
+                '><a>'+
+                (row.notSelectable ? '' : '<i class="' + this.m.checker + ' ' + this.s.checker + '"></i><i class="' + this.m.checkerNo + ' ' + this.s.checkerNo + '"></i>')+
+
                 // label or row.html
                 (row.html ? row.html : ('<span class="' + this.m.label +'">' + row.label + '</span>')) +
                 // folder
@@ -2942,7 +2958,7 @@
                 )
                 .on( // click on option
                     this.e.click,
-                    '.' + m.option,
+                    '.' + m.option + ':not(.'+m.optionNotSelectable+')',
                     function(e) {
                         var $p = $(e.target).parentsUntil('.' + m.option).andSelf();
                         // stop bubbling
