@@ -255,11 +255,27 @@ $("select#demo").smartselect({
                             </tr>
                             <tr>
                                 <td>
-                                    <h4 id="sec-1t">closeAfterAlias</h4>
+                                    <h4 id="sec-1t1">closeAfterAlias</h4>
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
                                 <td>Close the dropdown after selecting an alias.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1t2">disableUserAlias</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>false</i>
+                                </td>
+                                <td><b>New in 1.0.23</b>. User can NOT change aliases</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1t3">enableCollapseAll</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>true</i>
+                                </td>
+                                <td><b>New in 1.0.23</b>. Click 'Fold/Unfold' button now can collapse</td>
                             </tr>
                             <tr>
                                 <td>
@@ -878,6 +894,12 @@ $("select#demo").smartselect({
                                     <h4 id="sec-6i">data-group-exclusive</h4>
                                 </td>
                                 <td>Can be applied to &lt;OPTGROUP&gt;. Takes space seperated string value like 'a b c' or no value (means '_'). Groups with same char may have options selected at the same time, but others not (exclusive).</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-6j">data-not-selectable</h4>
+                                </td>
+                                <td><b>New in 1.0.23</b>. Make this option not selectable</td>
                             </tr>
                         </tbody>
                     </table>

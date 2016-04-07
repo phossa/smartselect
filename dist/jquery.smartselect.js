@@ -4,7 +4,9 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.21
+ * @version    1.0.23
+ * @since      1.0.23 Added options 'disableUserAlias' and 'enableCollapseAll'
+ *                    Added attribute 'data-not-selectable'
  */
 
 /**
@@ -306,6 +308,18 @@
             closeAfterAlias: true,
 
             /**
+             * @description user is unable to change aliases
+             * @type {Boolean}
+             */
+            disableUserAlias: false,
+
+            /**
+             * @description collapse all if click buttonUnfold again
+             * @type {Boolean}
+             */
+            enableCollapseAll: true,
+
+            /**
              * @descript search by 'label', 'value' or 'both'
              * @type {String}
              */
@@ -550,7 +564,7 @@
                 buttonSearch:   'search options',
                 buttonAlias:    'option aliases',
                 buttonView:     'view only selected',
-                buttonUnfold:   'expanded view',
+                buttonUnfold:   'expanded/collapse view',
                 buttonCancel:   'cancel selected options',
                 buttonCheckAll: 'select all',
                 buttonUnCheck:  'deselect all',
@@ -1974,7 +1988,11 @@
 
                 $li.find('.' + this.m.label).addClass(this.s.alias).text(name);
                 $li.find('.' + this.m.icon).addClass(this.s.aliasIcon);
-                $li.find('.' + this.m.caret).addClass(this.s.aliasCaret);
+
+                // disable DELETE alias if disableUserAlias is true
+                if (!self.o.disableUserAlias) {
+                    $li.find('.' + this.m.caret).addClass(this.s.aliasCaret);
+                }
 
                 $ul.find('.' + this.m.alias).off()
                     .on ( // click on alias
@@ -2117,7 +2135,7 @@
                             data[data.length] = row;
                             return true;
                         }
-                        
+
                         // it is empty option
                         if ($node.val().trim() === '' && $node.text().trim() === ''){
                         	return true;
@@ -2161,7 +2179,7 @@
                         // data-inclusive
                         var inc = $node.attr(a.dataInclusive);
                         if (inc !== undefined) row[a.dataInclusive] = inc.length ? inc : '_';
-                        
+
                         // data-not-selectable
                         if ($node.attr(a.dataNotSelectable) !== undefined){
                         	row.notSelectable = $node.data('notSelectable');
@@ -2402,7 +2420,16 @@
                 .on(
                     this.e.buttonClick,
                     $.proxy(function() {
-                        this._expandAllLevels();
+                        if (this.o.enableCollapseAll &&
+                            this.$buttonUnfold.find('.' + this.m.icon)
+                            .hasClass(this.s.buttonFoldOpen)
+                        ) {
+                            // collapse all except for opt-group
+                            this._expandAllLevels(true);
+                        } else {
+                            // expand all
+                            this._expandAllLevels();
+                        }
                         // update icon
                         this._updateIcons();
                     }, this)
@@ -2537,7 +2564,13 @@
                     function() {
                         if (!self.$buttonAlias.hasClass(self.m.open)) {
                             self.$buttonAlias.addClass(self.m.open);
-                            self.$save.focus();
+                            // hide input box if disableUserAlias
+                            if (self.o.disableUserAlias) {
+                                self.$save.hide();
+                            // focus input box
+                            } else {
+                                self.$save.focus();
+                            }
                         } else {
                             self.$buttonAlias.removeClass(self.m.open);
                         }
@@ -2680,7 +2713,7 @@
 
                     // fix row.level
                     if (row.level === undefined) row.level = 1;
-                    
+
                     // fix not selectable
                     if (row.notSelectable === undefined) row.notSelectable = false;
 
