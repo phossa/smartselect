@@ -46,7 +46,7 @@
         <!-- load scripts -->
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="../dist/jquery.smartselect.min.js"></script>
+        <script src="../dist/jquery.smartselect.js"></script>
 
         <!-- navbar -->
         <nav class="navbar navbar-inverse navbar-static-top phossa-blue phossa-bottom-shadow" role="navigation">
@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-md-9" role="main">
                     <h2 id="sec-1">Settings</h2>
-                    <p>Plugin settings are set during the initialization time.</p>
+                    <p>Plugin settings are set during the plugin initialization. <b>(Updated for 1.0.23 version)</b></p>
                     <pre>
 $("select#demo").smartselect({
     multiple: false
@@ -129,9 +129,9 @@ $("select#demo").smartselect({
                                 <td>
                                     <h4 id="sec-1e">debugLevel</h4>
                                     type: <i>integer</i><br />
-                                    default: <i>5</i>
+                                    default: <i>10</i>
                                 </td>
-                                <td>Debug level 2 - 9. Set to 9 if the detailed messages wanted.</td>
+                                <td>Debug level 2 - 20. Set to 20 if the detailed messages wanted.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -139,7 +139,15 @@ $("select#demo").smartselect({
                                     type: <i>integer</i><br />
                                     default: <i>5</i>
                                 </td>
-                                <td>Maximum data levels allowed. There is no hard limit on the <i>data-level</i>. If you want to support more than the default 5 levels, you may set here and also modify the data-level related style in the 'smartselect.css' file.</td>
+                                <td>Maximum data levels allowed. There is no hard limit on the <i>data-level</i>. If you want to support more than the default 5 levels, you may set a new number here and also modify the data-level related style in the 'smartselect.css' file.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1f2">searchTimeout</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>false</i>
+                                </td>
+                                <td>Set search timeout</td>
                             </tr>
                             <tr>
                                 <td>
@@ -155,7 +163,15 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>If set to TRUE, close other smartselects' dropdowns when open this plugin's dropdown.</td>
+                                <td>If set to TRUE, close other smartselects' dropdowns when open this select's dropdown.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1h2">closeOnClickOutside</h4>
+                                    type: <i>boolean</i><br />
+                                    default: <i>false</i>
+                                </td>
+                                <td>If set to TRUE, close the dropdown if clicked outside the plugin.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -163,7 +179,7 @@ $("select#demo").smartselect({
                                     type: <i>array</i><br />
                                     default: <i>null</i>
                                 </td>
-                                <td>array of values (string). When all options deselected, plugin will reset to these default values.</td>
+                                <td>Array of values (string). When all options deselected, plugin will reset to these default values.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -171,7 +187,7 @@ $("select#demo").smartselect({
                                     type: <i>array</i><br />
                                     default: <i>[]</i>
                                 </td>
-                                <td>array of values (string). Initial options to select, similar to the original &lt;SELECT&gt; has values selected.</td>
+                                <td>Array of values (string). Initial options to select, similar to the original &lt;SELECT&gt; has values selected.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -179,7 +195,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>If set to TRUE, will always keep the original &lt;SELECT&gt; in sync with plugin. In optimized mode, this switch is set to FALSE to increase performance. and the sync will be performed when dropdown closed or by calling method 'syncSelect' manually.</td>
+                                <td>If set to TRUE, will always keep the underlying &lt;SELECT&gt; in sync with plugin. In optimized mode, this switch is set to FALSE to increase performance. and the sync will be performed when dropdown closed or by calling method 'syncSelect' manually.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -211,7 +227,28 @@ $("select#demo").smartselect({
                                     type: <i>string</i><br />
                                     default: <i>', '</i>
                                 </td>
-                                <td>seperator used in displaying option text</td>
+                                <td>Seperator used in displaying option text</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1o1">showSelectedCallback</h4>
+                                    type: <i>function</i><br />
+                                    default: <i>null</i>
+                                </td>
+                                <td>Define a callback to display selected options
+                                    <pre>
+showSelectedCallback: function(labels) {
+    return this.o.text.selectLabel + ': ' + labels.join(this.o.showSelectedSeperator);
+}</pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-1o2">specialValueSeperator</h4>
+                                    type: <i>string</i><br />
+                                    default: <i>::</i>
+                                </td>
+                                <td>Seperator used in get/set special value</td>
                             </tr>
                             <tr>
                                 <td>
@@ -219,7 +256,7 @@ $("select#demo").smartselect({
                                     type: <i>string</i><br />
                                     default: <i>'root+selected'</i>
                                 </td>
-                                <td>Default fold/unfold view for the first time dropdown. possible values are 'root', 'expand', 'level1', 'level2' and 'selected'. 'selected' can be combined with other values like 'root+selected'.</td>
+                                <td>Default view for the first time user click to show the dropdown. possible values are 'root', 'expand', 'level1', 'level2' and 'selected'. 'selected' can be combined with other values like 'root+selected'.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -227,7 +264,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Simulate a click of the buttonView after clicking buttonCheckAll</td>
+                                <td>Simulate a click of the 'buttonView' after clicking buttonCheckAll. </td>
                             </tr>
                             <tr>
                                 <td>
@@ -235,7 +272,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Simulate a click of the buttonView after clicking buttonCancel</td>
+                                <td>Simulate a click of the 'buttonView' after clicking buttonCancel</td>
                             </tr>
                             <tr>
                                 <td>
@@ -243,7 +280,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Simulate a click of the buttonView after selecting an alias</td>
+                                <td>Simulate a click of the 'buttonView' after selecting an alias</td>
                             </tr>
                             <tr>
                                 <td>
@@ -267,7 +304,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>false</i>
                                 </td>
-                                <td><b>New in 1.0.23</b>. User can NOT change aliases</td>
+                                <td><b>New in 1.0.23</b>. User can NOT save or change aliases but can use predefined aliases.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -275,7 +312,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td><b>New in 1.0.23</b>. Click 'Fold/Unfold' button now can collapse</td>
+                                <td><b>New in 1.0.23</b>. Click 'Fold/Unfold' button now can toggle expand/collapse</td>
                             </tr>
                             <tr>
                                 <td>
@@ -391,7 +428,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Unfold all.</td>
+                                <td>Toggle fold/unfold.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -399,7 +436,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Cancel current selections, revert to the state of before dropdown shows.</td>
+                                <td>Cancel current selections, revert to the state of before current dropdown shows.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -407,7 +444,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Select all.</td>
+                                <td>Select all if current data model supports. Otherwise try the best.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -415,7 +452,7 @@ $("select#demo").smartselect({
                                     type: <i>boolean</i><br />
                                     default: <i>true</i>
                                 </td>
-                                <td>Deselect all.</td>
+                                <td>Deselect all if currrent data model supports. Otherwise try the best.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -554,6 +591,20 @@ ss.selectOptions([ '4', '6' ]);</pre>
                             </tr>
                             <tr>
                                 <td>
+                                    <h4 id="sec-3o1">openDropdown()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Force open the dropdown.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 id="sec-3o2">closeDropdown()</h4>
+                                    returns: <i>SmartSelect</i>
+                                </td>
+                                <td>Force close the dropdown.</td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <h4 id="sec-3p">toggleOption(li, triggerChange, setOption)</h4>
                                     param: <i>{ValueString, HTHMLElement, jQuery, IDstring} li</i><br />
                                     param: <i>{Boolean} triggerChange</i><br />
@@ -625,7 +676,7 @@ ss.selectOptions([ '4', '6' ]);</pre>
                                 <td>
                                     <h4 id="sec-3x">addAlias(name, value, syncLabel, syncAlias)</h4>
                                     param: <i>{String, Object} name</i><br />
-                                    param: <i>{Array} value</i><br />
+                                    param: <i>{Array} values</i><br />
                                     param: <i>{Boolean} syncLabel</i><br />
                                     param: <i>{Boolean} syncAlias</i><br />
                                     returns: <i>SmartSelect</i>
@@ -899,7 +950,7 @@ $("select#demo").smartselect({
                                 <td>
                                     <h4 id="sec-6j">data-not-selectable</h4>
                                 </td>
-                                <td><b>New in 1.0.23</b>. Make this option not selectable</td>
+                                <td><b>New in 1.0.21</b>. Make this option not selectable. Contributed by xibman. Not fully tested.</td>
                             </tr>
                         </tbody>
                     </table>

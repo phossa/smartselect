@@ -2,7 +2,7 @@
   "name": "smartselect",
   "description": "SmartSelect is a jQuery multiselect and tree / hierarchy select plugin with bootstrap style. It is 10x faster than similar plugins and supports complex data relations.",
   "homepage": "http://phossa.github.io/smartselect/docs/index.html",
-  "version": "1.0.21",
+  "version": "1.0.23",
   "keywords": [
     "jquery-plugin",
     "ecosystem:jquery",

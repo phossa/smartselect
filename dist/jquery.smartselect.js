@@ -119,7 +119,7 @@
              * @description debug level, 2 - 20
              * @type {Integer}
              */
-            debugLevel: 16,
+            debugLevel: 10,
 
             /**
              * @description max data-level allowed
@@ -310,12 +310,14 @@
             /**
              * @description user is unable to change aliases
              * @type {Boolean}
+             * @since 1.0.23
              */
             disableUserAlias: false,
 
             /**
              * @description collapse all if click buttonUnfold again
              * @type {Boolean}
+             * @since 1.0.23
              */
             enableCollapseAll: true,
 
@@ -447,6 +449,9 @@
                 folder:         'ss-folder',
                 folderOpen:     'ss-open',
                 folderClose:    'ss-close',
+
+                // expand/collapse all marker icon
+                expandAll:      'fa-folder-open-o',
 
                 // toolbutton
                 button:         'ss-button',
@@ -2422,7 +2427,7 @@
                     $.proxy(function() {
                         if (this.o.enableCollapseAll &&
                             this.$buttonUnfold.find('.' + this.m.icon)
-                            .hasClass(this.s.buttonFoldOpen)
+                            .hasClass(this.m.expandAll)
                         ) {
                             // collapse all except for opt-group
                             this._expandAllLevels(true);
