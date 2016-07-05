@@ -4,9 +4,10 @@
  * ========================================================
  *
  * @author     Hong Zhang <smartselect@126.com>
- * @version    1.0.23
+ * @version    1.0.24
  * @since      1.0.23 Added options 'disableUserAlias' and 'enableCollapseAll'
  *                    Added attribute 'data-not-selectable'
+ * @since      1.0.24 Added function 'clearAllOptions'
  */
 
 /**
@@ -76,7 +77,7 @@
         this._init();
     };
 
-    SmartSelect.VERSION = '1.0.21';
+    SmartSelect.VERSION = '1.0.24';
 
     // SMARTSELECT PROTOTYPE
     // ====================================================
@@ -1079,6 +1080,54 @@
 
                 // changed
                 this._triggerEvent('onOptionChanged');
+                this._updateIcons();
+            }
+
+            return this;
+        },
+
+        /**
+         * @description clear all options
+         * @returns {Object} this
+         * @public
+         * @since 1.0.24
+         */
+        clearAllOptions: function() {
+            this._debug('clearAllOptions');
+
+            // all options
+            var $allOpts = this.$dropdown.find('.' + this.m.option);
+
+            // number of select options
+            var $actives = $allOpts.find('.' + this.m.active)
+                .not('.' + this.m.disabled).length;
+
+            // if has options
+            if ($allOpts.length) {
+                // close dropdown
+                this.toggleDropdown(true);
+
+                // update backend SELECT
+                this.$element.empty();
+
+                // empty the dropdown
+                this.$dropdown.empty().data('mapping', {});
+
+                // make sure will rebuild the toolbar & events binding
+                this._delayed = false;
+
+                // trigger a status event
+                this.$element.trigger('optionRemoved' + eventSuffix);
+
+                // changed
+                if ($actives > 0) {
+                    this._triggerEvent('onOptionChanged');
+                }
+
+                // update button label
+                this._setSelectLabel();
+
+                // update icons
                 this._updateIcons();
             }
 
@@ -2143,7 +2192,7 @@
 
                         // it is empty option
                         if ($node.val().trim() === '' && $node.text().trim() === ''){
-                        	return true;
+                          return true;
                         }
 
                         // normal option
@@ -2187,7 +2236,7 @@
 
                         // data-not-selectable
                         if ($node.attr(a.dataNotSelectable) !== undefined){
-                        	row.notSelectable = $node.data('notSelectable');
+                          row.notSelectable = $node.data('notSelectable');
                         }
 
                         data[data.length] = row;

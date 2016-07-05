@@ -914,7 +914,7 @@ $("select#demo-3b").smartselect({
 
                     <h2 id="sec-4">APIs</h2>
                     <div>
-                        <h3 id="sec-4a">common apis</h3>
+                        <h3 id="sec-4a">common APIs</h3>
                         <div class="demo">
                             <select id="demo-4a" multiple>
                                 <optgroup label="group 1" data-view>
@@ -1376,6 +1376,61 @@ $("#btn-4db").click(function() {
 $("#btn-4dc").click(function() {
     $ss4d.removeAlias('test');
 });</pre>
+                        <hr>
+
+                        <h3 id="sec-4e">clear all options</h3>
+                        <div class="demo">
+                            <select id="demo-4e" multiple>
+                                <optgroup label="group 1" data-view>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </optgroup>
+                                <optgroup label="group 2">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </optgroup>
+                            </select>
+                            <script>
+                                $(document).ready(function() {
+                                    var $ss4e = $("select#demo-4e").smartselect({
+                                                    defaultView: 'expand',
+                                                    closeAfterAlias: false
+                                                }).getsmartselect();
+
+                                    $("#btn-4e").click(function() {
+                                        $ss4e.clearAllOptions();
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt><b>clearAllOptions()</b></dt>
+                                <dd>
+                                    <ul>
+                                        <li>Clear all options</li>
+                                    </ul>
+                                </dd>
+                                <dt><b>click button below</b></dt>
+                                <dd>
+                                    <button type="button" id="btn-4e" class="btn btn-sm btn-info">Clear all options</button>
+                                </dd>
+                            </dl>
+                        </div>
+                        <pre>
+var $ss4e = $("select#demo-4e").smartselect({
+    defaultView: 'expand',
+    closeAfterAlias: false
+}).getsmartselect();
+
+$("#btn-4e").click(function() {
+    $ss4e.clearAllOptions();
+});
+</pre>
                         <hr>
                     </div>
 
