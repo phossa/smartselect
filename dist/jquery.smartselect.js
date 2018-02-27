@@ -3499,7 +3499,7 @@
 
             // is this a multiple-select ?
             this._isMultiple = this.o.multiple ? true : false;
-            if (this._isSelect && this.$element.attr('multiple') === undefined) {
+            if (this._isSelect && this.$element.attr('multiple', '') === undefined) {
                 this._isMultiple = false;
             }
 
