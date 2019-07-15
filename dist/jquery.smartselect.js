@@ -1673,7 +1673,7 @@
             } else {
                 data = this.o.data;
             }
-            // refreshing option
+            // refreshing options
             this._buildOption(data);
         },
 
