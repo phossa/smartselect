@@ -1659,6 +1659,24 @@
             return this;
         },
 
+
+        /**
+         * @description force sync plugin with original <SELECT> VALUES
+         * @returns void
+         * @public
+         */
+        reloadSelect: function () {
+            // get data
+            var data = [];
+            if (this._isSelect) {
+                this._extractSelectData(data);
+            } else {
+                data = this.o.data;
+            }
+            // refreshing option
+            this._buildOption(data);
+        },
+
         // ============================
         // private methods
         // ============================
