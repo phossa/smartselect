@@ -8,6 +8,8 @@
  * @since      1.0.23 Added options 'disableUserAlias' and 'enableCollapseAll'
  *                    Added attribute 'data-not-selectable'
  * @since      1.0.24 Added function 'clearAllOptions'
+ * @since      1.0.25 Added function 'reloadSelect' 
+ *                    Added function 'getTreeValues' 
  */
 
 /**
@@ -1675,6 +1677,35 @@
             }
             // refreshing options
             this._buildOption(data);
+        },
+
+        /**
+         * @description get all childs of selected options values
+         * @param {Boolean} getSelf TRUE to include self options value
+         * @returns {ARRAY} values
+         * @public
+         */
+        getTreeValues: function (getSelf = true) {
+            
+            this._debug('getTreeValues');
+
+            let $values = [];
+            let $parents = this.$dropdown.find('.' + this.m.active + '.' + this.m.option).not('.' + this.m.disabled);
+            let self = this;
+
+            $($parents).each(function() {
+                let $opt = $(this);
+                if (getSelf) $values.push(self._getOptionValue($opt));
+
+                $(this).nextAll().each(function() {
+                    if ($(this).data('level') > $opt.data('level')) {
+                        $values.push(self._getOptionValue($(this)));
+                    } else {
+                        return false;
+                    }
+                })
+            });
+            return $values;
         },
 
         // ============================
