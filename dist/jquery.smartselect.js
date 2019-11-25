@@ -3047,7 +3047,7 @@
                     this.e.click,
                     '.' + m.option + ':not(.'+m.optionNotSelectable+')',
                     function(e) {
-                        var $p = $(e.target).parentsUntil('.' + m.option).andSelf();
+                        var $p = $(e.target).parentsUntil('.' + m.option).addBack();
                         // stop bubbling
                         if ($p.filter('.' + m.noBubble).length) {
 
